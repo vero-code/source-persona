@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veronika AI | Neural Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Outfit:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="grid-bg"></div>
+    
+    <div class="hud-container">
+        <header>
+            <div class="logo">VERONIKA_AI</div>
+            <div id="system-clock">23:20:45</div>
+        </header>
+
+        <!-- Sidebar Left -->
+        <aside class="panel">
+            <div class="sidebar-title">Neural Engine Status</div>
+            
+            <div class="ai-core-container">
+                <div id="ai-core" class="ai-core"></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>CPU LOAD</span><span id="cpu-val">42%</span></div>
+                <div class="stat-bar-container"><div id="cpu-bar" class="stat-bar" style="width: 42%;"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>MEMORY</span><span id="mem-val">2.4GB</span></div>
+                <div class="stat-bar-container"><div id="mem-bar" class="stat-bar" style="width: 65%; background: var(--accent-purple);"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>LATENCY</span><span id="lat-val">12ms</span></div>
+                <div class="stat-bar-container"><div id="lat-bar" class="stat-bar" style="width: 15%;"></div></div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="panel main-chat">
+            <div id="chat-history">
+                <div class="message ai-message">
+                    <div class="message-label">System Initialized</div>
+                    Neural interface ready. Awaiting connection parameters...
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar Right -->
+        <aside class="panel">
+            <div class="sidebar-title">Active Modules</div>
+            
+            <div class="module-item">
+                <span>RAG Protocol</span>
+                <div class="status-dot"></div>
+            </div>
+            <div class="module-item">
+                <span>Kafka Stream</span>
+                <div class="status-dot"></div>
+            </div>
+            <div class="module-item">
+                <span>Vector DB</span>
+                <div class="status-dot"></div>
+            </div>
+            <div class="module-item" style="opacity: 0.5;">
+                <span>Deep Search</span>
+                <div class="status-dot" style="background: #ff5252; box-shadow: 0 0 5px #ff5252;"></div>
+            </div>
+
+            <div style="margin-top: auto; font-size: 0.7rem; opacity: 0.5; line-height: 1.6;">
+                <p>ENCRYPTION: AES-256</p>
+                <p>UPLINK: ACTIVE</p>
+                <p>SESSION: 0xAF32...92</p>
+            </div>
+        </aside>
+
+        <!-- Input Section -->
+        <div class="input-panel">
+            <input type="text" id="user-input" placeholder="Enter query..." autofocus autocomplete="off">
+        </div>
+
+        <footer class="footer-info">
+            &copy; 2026 NEURAL INTERFACE // V.2.5.0-STABLE
+        </footer>
+    </div>
+
+    <script>
+        const input = document.getElementById('user-input');
+        const history = document.getElementById('chat-history');
+        const core = document.getElementById('ai-core');
+
+        // Clock Update
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('system-clock').innerText = now.toTimeString().split(' ')[0];
+        }, 1000);
+
+        // Random Stat Animation
+        setInterval(() => {
+            const cpu = Math.floor(Math.random() * 40) + 20;
+            const mem = Math.floor(Math.random() * 20) + 60;
+            const lat = Math.floor(Math.random() * 30) + 5;
+
+            document.getElementById('cpu-val').innerText = `${cpu}%`;
+            document.getElementById('cpu-bar').style.width = `${cpu}%`;
+            
+            document.getElementById('mem-val').innerText = `${(mem * 0.04).toFixed(1)}GB`;
+            document.getElementById('mem-bar').style.width = `${mem}%`;
+
+            document.getElementById('lat-val').innerText = `${lat}ms`;
+            document.getElementById('lat-bar').style.width = `${lat}%`;
+        }, 3000);
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                const text = this.value;
+                this.value = '';
+                
+                // Add User Message
+                addMessage(text, 'user-message', 'User');
+                
+                // Thinking State
+                core.classList.add('thinking');
+                
+                setTimeout(() => {
+                    core.classList.remove('thinking');
+                    addMessage('Neural processing complete. High-level architecture detected. Connection to secondary backend pending routing protocols.', 'ai-message', 'Veronika AI');
+                }, 1500);
+            }
+        });
+
+        function addMessage(content, type, label) {
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            msg.innerHTML = `
+                <div class="message-label">${label}</div>
+                <div>${content}</div>
+            `;
+            history.appendChild(msg);
+            history.scrollTop = history.scrollHeight;
+        }
+    </script>
+</body>
+</html>
