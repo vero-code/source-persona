@@ -35,10 +35,28 @@ input.addEventListener('keydown', function(e) {
         // Thinking State
         core.classList.add('thinking');
         
-        setTimeout(() => {
+        // Send to Backend API
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: text }),
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
             core.classList.remove('thinking');
-            addMessage('Neural processing complete. High-level architecture detected. Connection to secondary backend pending routing protocols.', 'ai-message', 'Veronika AI');
-        }, 1500);
+            addMessage(data.response, 'ai-message', 'Veronika AI');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            core.classList.remove('thinking');
+            addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST: SERVER UNREACHABLE</span>', 'ai-message', 'SYSTEM');
+        });
+
     }
 });
 
