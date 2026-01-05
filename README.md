@@ -13,6 +13,13 @@ Powered by **Google Gemini 2.5 Flash**, the system uses **RAG (Retrieval-Augment
 
 > **Live Demo Context:** This specific deployment is configured to represent **Veronika Kashtanova** (AI Engineer & Founder), demonstrating how the engine processes real-world projects history, technical skills, and professional context.
 
+![Source Persona Interface](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/em6js7xnrom0mm9ko7m3.png)
+
+### 🎥 Making Of & Demo
+*Watch the engineering process behind Source Persona (Gemini 2.5 + Antigravity):*
+
+[![Watch the video](https://img.youtube.com/vi/IUg6IYjWplM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IUg6IYjWplM)
+
 ## ⚙️ Architecture
 
 The system relies on a serverless architecture deployed on **Google Cloud Run**, ensuring scalability and zero-maintenance operations.
