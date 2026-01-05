@@ -13,6 +13,38 @@ Powered by **Google Gemini 2.5 Flash**, the system uses **RAG (Retrieval-Augment
 
 > **Live Demo Context:** This specific deployment is configured to represent **Veronika Kashtanova** (AI Engineer & Founder), demonstrating how the engine processes real-world projects history, technical skills, and professional context.
 
+## ⚙️ Architecture
+
+The system relies on a serverless architecture deployed on **Google Cloud Run**, ensuring scalability and zero-maintenance operations.
+
+```mermaid
+graph TD
+    subgraph Client ["Client Side"]
+        UI["Web UI (Cyberpunk HUD)"]
+        JS[script.js]
+        CSS[styles.css]
+    end
+
+    subgraph Cloud ["Google Cloud Run"]
+        API["FastAPI Backend"]
+        RAG["RAG Engine"]
+        GeminiClient["Gemini Client"]
+    end
+
+    subgraph External ["External Services"]
+        GitHub["GitHub API"]
+        Gemini["Google Gemini 2.5 Flash"]
+    end
+
+    UI <--> JS
+    JS <--> API
+    API <--> RAG
+    API <--> GeminiClient
+    RAG <--> GitHub
+    GeminiClient <--> Gemini
+```
+
+*See detailed documentation in [ARCHITECTURE.md](ARCHITECTURE.md).*
 
 ## ✨ Key Features
 
