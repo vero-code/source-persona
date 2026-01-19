@@ -318,3 +318,69 @@ header {
     letter-spacing: 3px;
     text-transform: uppercase;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hud-container {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        padding: 10px;
+        gap: 10px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    header {
+        padding: 0 5px;
+        min-height: 50px;
+        flex-shrink: 0;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #system-clock {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .sidebar-left,
+    .sidebar-right {
+        display: none;
+    }
+
+    .main-chat {
+        flex: 1;
+        width: 100%;
+        margin: 0;
+        min-height: 0;
+        border: none;
+        background: transparent;
+        padding-top: 0;
+    }
+
+    .input-panel {
+        width: 100%;
+        margin-bottom: 0;
+        grid-column: auto;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #user-input {
+        font-size: 16px;
+        padding: 10px 15px;
+        height: 44px;
+    }
+
+    .footer-info {
+        display: none;
+    }
+}
