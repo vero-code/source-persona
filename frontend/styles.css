@@ -261,23 +261,49 @@ header {
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.input-prompt {
+    font-family: 'Fira Code', monospace;
+    color: var(--accent-cyan);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--accent-cyan);
+    padding-left: 10px;
+    animation: prompt-pulse 2s infinite;
+}
+
+@keyframes prompt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 #user-input {
     flex: 1;
-    background: transparent;
-    border: 1px solid var(--glass-border);
-    padding: 15px 25px;
-    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    padding: 12px 20px;
+    border-radius: 20px;
     color: white;
     font-family: 'Fira Code', monospace;
+    font-size: 1rem;
     outline: none;
-    transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#user-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
 }
 
 #user-input:focus {
+    background: rgba(0, 243, 255, 0.05);
     border-color: var(--accent-cyan);
-    box-shadow: var(--shadow-cyan);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    letter-spacing: 0.5px;
 }
 
 /* Footer Info */
