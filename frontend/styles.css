@@ -234,6 +234,58 @@ header {
     opacity: 0.5;
 }
 
+/* Markdown Styles */
+.markdown-content p {
+    margin-bottom: 10px;
+}
+
+.markdown-content p:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 10px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.markdown-content code {
+    font-family: 'Fira Code', monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.markdown-content pre code {
+    background: transparent;
+    padding: 0;
+    color: var(--accent-cyan);
+}
+
+.markdown-content ul, .markdown-content ol {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.markdown-content strong {
+    color: var(--accent-cyan);
+}
+
+.markdown-content a {
+    color: var(--accent-purple);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-purple);
+}
+
+.markdown-content a:hover {
+    color: var(--text-main);
+    border-color: var(--text-main);
+}
+
 /* Module List */
 .module-item {
     display: flex;

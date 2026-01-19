@@ -63,9 +63,21 @@ input.addEventListener('keydown', function(e) {
 function addMessage(content, type, label) {
     const msg = document.createElement('div');
     msg.className = `message ${type}`;
+
+    let parsedContent = content;
+
+    if (typeof marked === 'undefined') {
+        console.error('Error: Marked library not found!');
+    } else {
+        try {
+            parsedContent = marked.parse(content);
+        } catch (error) {
+            console.error('Error parsing Markdown:', error);
+        }
+    }
     msg.innerHTML = `
         <div class="message-label">${label}</div>
-        <div>${content}</div>
+        <div class="markdown-content">${parsedContent}</div>
     `;
     history.appendChild(msg);
     history.scrollTop = history.scrollHeight;
