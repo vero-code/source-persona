@@ -2,6 +2,16 @@ const input = document.getElementById('user-input');
 const history = document.getElementById('chat-history');
 const core = document.getElementById('ai-core');
 
+// Initialize Mermaid
+if (typeof mermaid !== 'undefined') {
+    mermaid.initialize({
+        startOnLoad: false,
+        theme: 'dark',
+        securityLevel: 'loose',
+        fontFamily: 'Fira Code'
+    });
+}
+
 // Clock Update
 setInterval(() => {
     const now = new Date();
@@ -80,5 +90,25 @@ function addMessage(content, type, label) {
         <div class="markdown-content">${parsedContent}</div>
     `;
     history.appendChild(msg);
+
+    // Initial Render for Mermaid
+    if (typeof mermaid !== 'undefined') {
+        const mermaidBlocks = msg.querySelectorAll('pre code.language-mermaid');
+        mermaidBlocks.forEach((block, index) => {
+            const graphDefinition = block.textContent;
+            const uniqueId = `mermaid-${Date.now()}-${index}`;
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.id = uniqueId;
+            mermaidContainer.textContent = graphDefinition;
+            
+            block.parentElement.replaceWith(mermaidContainer);
+            
+            mermaid.run({
+                nodes: [mermaidContainer]
+            });
+        });
+    }
+
     history.scrollTop = history.scrollHeight;
 }
