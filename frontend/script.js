@@ -129,6 +129,22 @@ function stopThinkingAnim() {
     }
 }
 
+// 2.5 Suggestion Chips Logic
+const chips = document.querySelectorAll('.suggestion-chip');
+chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+        const question = chip.getAttribute('data-question');
+        input.value = question;
+        // Trigger the enter key event manually to reuse existing logic
+        const event = new KeyboardEvent('keydown', {
+            key: 'Enter',
+            bubble: true,
+            cancelable: true
+        });
+        input.dispatchEvent(event);
+    });
+});
+
 // 3. Main Chat Logic
 input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') {
