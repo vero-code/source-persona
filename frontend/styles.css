@@ -49,7 +49,7 @@ body, html {
 .hud-container {
     display: grid;
     grid-template-columns: 280px 1fr 280px;
-    grid-template-rows: 60px 1fr 100px;
+    grid-template-rows: 60px 1fr auto auto;
     height: 100vh;
     gap: 20px;
     padding: 20px;
@@ -319,6 +319,7 @@ header {
 /* Input Area */
 .input-panel {
     grid-column: 2;
+    grid-row: 3;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -370,7 +371,7 @@ header {
 
 /* Footer Info */
 .footer-info {
-    grid-row: 3;
+    grid-row: 4;
     grid-column: 1 / -1;
     display: flex;
     justify-content: center;
