@@ -1,44 +1,48 @@
 # Architecture
 
-This document describes the high-level architecture of the **Source Persona** project.
+This document describes the high-level architecture of the **Source Persona** project, an autonomous Digital Twin.
 
 ## System Overview
 
-Source Persona is an autonomous Digital Twin deployed on Google Cloud Run. It utilizes a RAG (Retrieval-Augmented Generation) architecture to fetch user data from GitHub and synthesize personalized responses using Google Gemini 2.5.
+Source Persona utilizes a **Hybrid RAG (Retrieval-Augmented Generation)** architecture. It synchronizes professional history from a static **PDF Resume** and real-time project data from **GitHub** to synthesize grounded, hallucination-free responses using **Google Gemini 3**.
 
 ```mermaid
 graph TD
-    subgraph Client ["Client Side"]
-        UI["Web UI (Cyberpunk HUD)"]
-        JS[script.js]
-        CSS[styles.css]
-    end
-
-    subgraph Cloud ["Google Cloud Run"]
-        API["FastAPI Backend"]
-        RAG["RAG Engine"]
-        GeminiClient["Gemini Client"]
-    end
-
-    subgraph External ["External Services"]
-        GitHub["GitHub API"]
-        Gemini["Google Gemini 2.5 Flash"]
-    end
-
-    UI <--> JS
-    JS <--> API
-    API <--> RAG
-    API <--> GeminiClient
-    RAG <--> GitHub
-    GeminiClient <--> Gemini
+    User((User/Recruiter)) --> WebUI[Cyberpunk HUD / Vanilla JS]
+    WebUI --> FastAPI[FastAPI Backend / Cloud Run]
+    FastAPI --> RAG[Hybrid RAG Engine]
+    RAG --> PDF[(PDF Resume: History)]
+    RAG --> JSON[(GitHub JSON: Live Code)]
+    FastAPI --> Gemini[Google Gemini]
+    Gemini --> Logic[Logic & Visuals]
+    Logic --> WebUI
 ```
 
 ## Components
 
-- **Frontend:** A futuristic Cyberpunk/Glassmorphism AI HUD built with vanilla JS/CSS.
+-   **Frontend:** A high-performance Cyberpunk AI HUD built with vanilla technologies.
     
-- **Backend:** FastAPI service hosted on Google Cloud Run.
+    -   **Marked.js:** For rendering technical documentation.
+        
+    -   **Mermaid.js:** For real-time architectural visualization.
+        
+    -   **Security State Engine:** Manages UI transitions (Red Alert Mode) when threats are detected.
+        
+-   **Backend:** A containerized FastAPI service deployed on **Google Cloud Run**.
     
-- **RAG Engine:** Parses the repository code and READMEs to build the context memory.
+-   **Hybrid RAG Engine:** - **Static Memory:** Parses `resume.pdf` using `pypdf` for educational and work history.
     
-- **AI Core:** Google Gemini 2.5 Flash serves as the cognitive engine for generating persona-based answers.
+    -   **Dynamic Memory:** Processes the GitHub repository data (stars, languages, descriptions) via `dynamic_profile.json`.
+        
+-   **AI Core (Google Gemini):** Acts as the cognitive engine. It operates under a strict **Senior Engineer Persona** directive, which includes:
+    
+    -   **Reverse Interview Capability:** Proactively evaluating user/recruiter technical culture.
+        
+    -   **Hallucination Defense:** Strict adherence to provided data sources.
+        
+
+## Security Protocols
+
+-   **Prompt Injection Defense:** A specialized monitoring layer that identifies jailbreak attempts.
+    
+-   **The Security Protocol:** A defensive response mechanism that triggers a visual "Red Alert" on the frontend and provides a secure rejection when system integrity is threatened.

@@ -1,74 +1,82 @@
 # 🤖 Source Persona // AI Digital Twin
-![Gemini 2.5 Flash](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-8E75B2?style=for-the-badge&logo=googlebard) ![Google Cloud Run](https://img.shields.io/badge/Deploy-Google%20Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud) ![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker) ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge) 
+![Gemini 3](https://img.shields.io/badge/AI-Gemini_3-8E75B2?style=for-the-badge&logo=googlebard) ![Cloud Run](https://img.shields.io/badge/Deploy-Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud) ![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker) ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge) 
 
 **An Autonomous AI Digital Twin representing the next generation of developer portfolios.** 
 
-> 🏆 Submission for the "New Year, New You Portfolio Challenge" by Google AI
+> 🏆 Submission for the ["New Year, New You"](https://dev.to/vero-code/source-persona-ai-twin-md9) Portfolio Challenge by Google AI
 
 
 ## 🚀 Overview
-**Source Persona** is a futuristic, neuro-symbolic framework designed to transform a traditional static portfolio into an **interactive AI Digital Twin**. It allows recruiters and collaborators to skip the resume and talk directly to an intelligent agent trained on a developer's specific project data and technical philosophy.
+**Source Persona** is a futuristic, neuro-symbolic framework designed to transform a static portfolio into an **interactive AI Digital Twin**. It allows recruiters and collaborators to skip the resume and talk directly to an intelligent agent trained on a developer's specific project data and technical philosophy.
 
-Powered by **Google Gemini 2.5 Flash**, the system uses **RAG (Retrieval-Augmented Generation)** to ground its responses in factual experience rather than hallucinations.
+Powered by **Google Gemini 3**, the system uses a sophisticated **Hybrid RAG** (Retrieval-Augmented Generation) engine to ground its responses in factual experience rather than hallucinations.
 
-> **Live Demo Context:** This specific deployment is configured to represent **Veronika Kashtanova** (AI Engineer & Founder), demonstrating how the engine processes real-world projects history, technical skills, and professional context.
+> **Live Demo Context:** This deployment represents **Veronika Kashtanova** (AI Engineer & Founder), demonstrating how the engine processes real-world project history, technical skills, and professional context.
 
 ![Source Persona Interface](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/em6js7xnrom0mm9ko7m3.png)
 
+
 ### 🎥 Making Of & Demo
-*Watch the engineering process behind Source Persona (Gemini 2.5 + Antigravity):*
+*Watch the engineering process behind Source Persona (Gemini + Antigravity):*
 
 [![Watch the video](https://img.youtube.com/vi/IUg6IYjWplM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IUg6IYjWplM)
 
+
 ## ⚙️ Architecture
 
-The system relies on a serverless architecture deployed on **Google Cloud Run**, ensuring scalability and zero-maintenance operations.
+The system relies on a serverless architecture deployed on **Google Cloud Run**, ensuring global scalability.
 
 ```mermaid
 graph TD
-    subgraph Client ["Client Side"]
-        UI["Web UI (Cyberpunk HUD)"]
-        JS[script.js]
-        CSS[styles.css]
-    end
-
-    subgraph Cloud ["Google Cloud Run"]
-        API["FastAPI Backend"]
-        RAG["RAG Engine"]
-        GeminiClient["Gemini Client"]
-    end
-
-    subgraph External ["External Services"]
-        GitHub["GitHub API"]
-        Gemini["Google Gemini 2.5 Flash"]
-    end
-
-    UI <--> JS
-    JS <--> API
-    API <--> RAG
-    API <--> GeminiClient
-    RAG <--> GitHub
-    GeminiClient <--> Gemini
+    User((User/Recruiter)) --> WebUI[Cyberpunk HUD / Vanilla JS]
+    WebUI --> FastAPI[FastAPI Backend / Cloud Run]
+    FastAPI --> RAG[Hybrid RAG Engine]
+    RAG --> PDF[(PDF Resume: History)]
+    RAG --> JSON[(GitHub JSON: Live Code)]
+    FastAPI --> Gemini[Google Gemini]
+    Gemini --> Logic[Logic & Visuals]
+    Logic --> WebUI
 ```
 
 *See detailed documentation in [ARCHITECTURE.md](ARCHITECTURE.md).*
 
+
 ## ✨ Key Features
 
-* **🗣️ Neuro-Symbolic Interaction:** Unlike static text, the avatar engages in a natural, multi-turn conversation, adapting its tone to the user's questions.
-* **🧠 Fact-Based Reasoning (RAG):** The system connects generative AI with a structured "Memory File" (`dynamic_profile.json`). It doesn't just invent; it cites specific projects, hackathons, and dates from developer's real experience.
-* **🎭 Adaptive Persona System:** The AI is prompted to mimic the specific communication style of a Senior Engineer—professional, concise, and visionary—avoiding generic "robot" answers.
-* **👁️ Immersive Cyberpunk UX:** A "No-Framework" approach to UI, delivering a cinematic visual experience (simulated terminal, glassmorphism) that performs instantly on any device.
+-   **🧠 Hybrid RAG Protocol (PDF + JSON):** The AI connects generative power with a dual-memory system. It processes a **static PDF Resume** for historical context (education, work history) and a **dynamic GitHub JSON** for real-time coding proof.
+    
+-   **🗣️ Reverse Interview Capability:** Unlike passive bots, this "Senior-level" twin evaluates the recruiter. It occasionally asks sharp follow-up questions about engineering culture, CI/CD maturity, and technical debt.
+    
+-   **🛡️ Prompt Injection Defense:** Features a custom security layer that detects jailbreak attempts. If an attack is detected, the UI triggers a **Red Alert Mode**, switching the HUD to red and deploying an "Access Denied" defense.
+    
+-   **📊 Visualized Architecture (Mermaid.js):** The agent doesn't just explain code; it draws it. Integration with **Mermaid.js** allows the Twin to render real-time system diagrams and flowcharts directly in the chat.
+    
+-   **🎭 Adaptive Persona System:** Mimics the communication style of a Senior Engineer—professional, concise, and visionary—citing specific project metrics.
+    
+-   **💎 Cyberpunk HUD (UX/UI Improvements):**
+    
+    -   **Markdown Support:** Full rendering of technical documentation and code blocks.
+        
+    -   **Input Field Highlight:** Real-time focus effects for an immersive terminal feel.
+        
+    -   **Embed Adaptability:** Responsive design optimized for standalone use or integration into external sites.
 
 
 ## 🛠️ Tech Stack
 
-* **AI Model:** Google Gemini 2.5 Flash (via Google GenAI SDK).
-* **Prompt Engineering & Testing:** Google **AI Studio** (Used for system instruction tuning and few-shot example generation).
-* **IDE & Dev Environment:** Google **Antigravity**.
-* **Backend:** Python 3.10, FastAPI, Uvicorn.
-* **Frontend:** Vanilla HTML5, CSS3 (Custom FUI Design System), JS.
-* **Deployment:** Docker, Google Cloud Run (Serverless).
+-   **AI Model:** Google **Gemini 3** (via Google GenAI SDK).
+
+-   **Prompt Engineering:** Google **AI Studio** (System instruction tuning & Hallucination defense).
+
+-   **Dev Environment:** Google **Antigravity**.
+
+-   **Backend:** Python 3.10, FastAPI, pypdf (Resume parsing).
+
+-   **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism), JavaScript (Custom FUI).
+
+-   **Visuals:** Mermaid.js & Marked.js.
+
+-   **Deployment:** Docker, Google Cloud Run (Serverless).
 
 
 ## 📥 Getting Started
@@ -92,7 +100,17 @@ GITHUB_TOKEN=your_token_here
 GEMINI_API_KEY=your_api_key_here
 ```
 
-### 3. Run the Application
+### 3. Prepare Memory (RAG)
+
+-   Place your **resume.pdf** in `backend/data/`.
+
+-   Run the sync tool to fetch your latest GitHub data:
+
+```bash
+python backend/app/services/github_sync.py
+```
+
+### 4. Run the Application
 
 You can run the digital twin using **Docker** (Recommended for stability) or **Python** (for development).
 
@@ -128,9 +146,7 @@ python backend/app/main.py
 
 ## 🎯 The "New Year, New You" Vision
 
-In 2026, personal branding is moving beyond static pages. This project demonstrates how AI can bridge the gap between high-level engineering and personal representation, creating a **"New You"** that is always online, always interactive, and powered by the cutting edge of Google's AI models.
-
-**Created by [Veronika Kashtanova](https://github.com/vero-code)** for the Google AI Challenge 2026.
+This project demonstrates how AI can bridge the gap between high-level engineering and personal representation, creating a **"Digital Twin"** that is always online, interactive, and grounded in truth. Powered by the cutting edge of **Google's AI** models.
 
 
 ## 📄 License
