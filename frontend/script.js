@@ -83,7 +83,6 @@ if (modeToggle) {
             techLabel.style.opacity = "1";
             hrLabel.style.opacity = "0.5";
             Terminal.log("PROTOCOL_OVERRIDE: Switching to TECH_LEAD mode", 'warn');
-            Terminal.log("Loading aggressive_architect.json...", 'info');
         } else {
             techLabel.style.opacity = "0.5";
             hrLabel.style.opacity = "1";
