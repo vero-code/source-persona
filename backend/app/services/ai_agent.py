@@ -1,6 +1,7 @@
 # backend/app/services/ai_agent.py
 import os
 import json
+from datetime import datetime
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -166,6 +167,72 @@ INSTRUCTIONS:
             return response.text
         except Exception as e:
             return f"AI Error: {str(e)}"
+
+    def generate_hiring_report(self, chat_history: list) -> bytes:
+        """
+        Analyzes the chat history and resume to generate a hiring report.
+        Returns PDF bytes.
+        """
+        if not self.client: return b""
+        
+        # 1. Format chat history for the prompt
+        formatted_history = "\n".join([f"{msg['role'].upper()}: {msg['content']}" for msg in chat_history])
+        
+        # 2. Construct Analysis Prompt
+        analysis_prompt = f"""
+        ROLE: Senior Technical Recruiter & Hiring Manager.
+        TASK: Perform a "Technical Due Diligence" on the candidate based on the interaction.
+        
+        INPUT DATA:
+        ---
+        RESUME SUMMARY:
+        {self.resume_text[:2000]}... (truncated)
+        ---
+        INTERVIEW TRANSCRIPT:
+        {formatted_history}
+        ---
+        
+        OUTPUT FORMAT: JSON ONLY. No markdown.
+        {{
+            "candidate_name": "Veronika Kashtanova",
+            "role": "Senior AI Engineer / Founder",
+            "session_id": "AUTO-GEN-{datetime.now().strftime('%H%M%S')}",
+            "executive_summary": "2-3 sentences evaluating the candidate's technical depth and soft skills shown in the chat.",
+            "top_skills": [
+                {{"name": "Skill 1", "evidence": "Mentioned using X in project Y..."}},
+                {{"name": "Skill 2", "evidence": "..."}},
+                {{"name": "Skill 3", "evidence": "..."}}
+            ],
+            "communication_style": "Metaphors used, clarity, confidence level...",
+            "verdict": "STRONG HIRE / HIRE / NO HIRE"
+        }}
+        """
+        
+        try:
+            # Generate Analysis
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=analysis_prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.3
+                )
+            )
+            
+            # Parse JSON
+            data = json.loads(response.text)
+            
+            # Generate PDF
+            from backend.app.services.pdf_generator import PDFService
+            pdf_service = PDFService()
+            pdf_bytes = pdf_service.create_report(data)
+            
+            return pdf_bytes
+            
+        except Exception as e:
+            print(f"Report Generation Error: {e}")
+            return b""
+
 
 # CLI Test Loop
 if __name__ == "__main__":

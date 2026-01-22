@@ -702,3 +702,69 @@ input:checked ~ #tech-label { opacity: 1 !important; }
     0% { opacity: 0.6; text-shadow: 0 0 2px var(--accent-cyan); }
     100% { opacity: 1; text-shadow: 0 0 10px var(--accent-cyan); }
 }
+
+/* Cyber Button */
+.cyber-btn {
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 12px 20px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
+}
+
+.cyber-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+    transition: 0.5s;
+}
+
+.cyber-btn:hover {
+    background: rgba(0, 243, 255, 0.25);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
+    text-shadow: 0 0 10px var(--accent-cyan);
+    transform: translateY(-2px);
+    border-color: #fff;
+}
+
+.cyber-btn:hover::before {
+    left: 100%;
+}
+
+.cyber-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 5px rgba(0, 243, 255, 0.4);
+}
+
+.cyber-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+    transform: none;
+    box-shadow: none;
+}
+
+#download-report-btn {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}

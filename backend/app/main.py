@@ -1,8 +1,9 @@
 import os
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from typing import List
 from backend.app.services.ai_agent import AIAgentService
 
 # 1. Setup
@@ -15,6 +16,9 @@ class UserMessage(BaseModel):
     mode: str = "hr"
     seniority: int = 2
 
+class ReportRequest(BaseModel):
+    chat_history: List[dict]
+
 # 3. API Endpoints
 @app.post("/api/chat")
 async def chat(user_msg: UserMessage):
@@ -23,6 +27,14 @@ async def chat(user_msg: UserMessage):
     """
     response = agent.ask(user_msg.message, mode=user_msg.mode)
     return {"response": response}
+
+@app.post("/api/generate-report")
+async def generate_report(request: ReportRequest):
+    """
+    Generates a PDF report based on chat history.
+    """
+    pdf_bytes = agent.generate_hiring_report(request.chat_history)
+    return Response(content=pdf_bytes, media_type="application/pdf")
 
 # 4. Static Files (Serve Frontend)
 # Important: This must be AFTER the API routes

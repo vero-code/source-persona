@@ -114,6 +114,87 @@ if (modeToggle) {
     });
 }
 
+// 3. Report Generation
+const downloadBtn = document.getElementById('download-report-btn');
+if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+        Terminal.log("INITIATING: Report Generation Sequence...", 'info');
+        Terminal.log("ANALYZING: Chat History & Candidate Data...", 'info');
+        
+        // Visual Feedback
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '⏳ GENERATING...';
+        downloadBtn.disabled = true;
+
+        // Collect Chat History
+        const messages = [];
+        document.querySelectorAll('#chat-history .message').forEach(msg => {
+            const labelEl = msg.querySelector('.message-label');
+            if (!labelEl) return;
+            
+            const roleLabel = labelEl.innerText;
+            const contentEl = msg.querySelector('.markdown-content');
+            let content = "";
+            
+            if (contentEl) {
+                content = contentEl.innerText;
+            } else {
+                content = msg.innerText; 
+            }
+
+            let role = "user";
+            if (roleLabel.toLowerCase().includes("veronika")) role = "model";
+            
+            if (roleLabel.includes("System")) return;
+
+            messages.push({ role: role, content: content });
+        });
+
+        if (messages.length === 0) {
+            Terminal.log("WARN: No data to analyze", 'warn');
+            downloadBtn.innerHTML = originalText;
+            downloadBtn.disabled = false;
+            return;
+        }
+
+        // Send to API
+        fetch('/api/generate-report', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ chat_history: messages })
+        })
+        .then(response => {
+            if (response.ok) return response.blob();
+            throw new Error("Report generation failed");
+        })
+        .then(blob => {
+            // Create Download Link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `SOURCE_PERSONA_REPORT_${new Date().getTime()}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            
+            Terminal.log("SUCCESS: Report Generated", 'info');
+            Terminal.log("DOWNLOAD: Starting transmission...", 'info');
+            
+            downloadBtn.innerHTML = originalText;
+            downloadBtn.disabled = false;
+        })
+        .catch(err => {
+            Terminal.log("ERROR: Generation Failed", 'error');
+            console.error(err);
+            downloadBtn.innerHTML = '❌ ERROR';
+            setTimeout(() => {
+                downloadBtn.innerHTML = originalText;
+                downloadBtn.disabled = false;
+            }, 3000);
+        });
+    });
+}
+
 // --- VISUALIZED THINKING PROCESS ---
 let thinkingInterval;
 let statusMessageElement = null;
