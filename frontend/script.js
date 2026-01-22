@@ -1,6 +1,7 @@
 const input = document.getElementById('user-input');
 const history = document.getElementById('chat-history');
 const core = document.getElementById('ai-core');
+const statusEl = document.getElementById('holo-status');
 
 // --- TOGGLES & SLIDERS ---
 const modeToggle = document.getElementById('challenge-mode-toggle');
@@ -91,6 +92,43 @@ if (modeToggle) {
     });
 }
 
+// --- VISUALIZED THINKING PROCESS ---
+let thinkingInterval;
+let statusMessageElement = null;
+
+function startThinkingAnim() {
+    statusMessageElement = document.createElement('div');
+    statusMessageElement.className = 'message ai-message holo-status';
+    history.appendChild(statusMessageElement);
+    history.scrollTop = history.scrollHeight;
+    const steps = [
+        "ESTABLISHING UPLINK...",
+        "SEARCHING VECTOR DB (RAG)...",
+        "ANALYZING SECURITY PROTOCOLS...",
+        "OPTIMIZING RESPONSE...",
+        "GENERATING OUTPUT..."
+    ];
+    let i = 0;
+    statusMessageElement.innerText = steps[0];
+    thinkingInterval = setInterval(() => {
+        i++;
+        if (i < steps.length) {
+            if (statusMessageElement) {
+                statusMessageElement.innerText = steps[i];
+                history.scrollTop = history.scrollHeight;
+            }
+        }
+    }, 800);
+}
+
+function stopThinkingAnim() {
+    clearInterval(thinkingInterval);
+    if (statusMessageElement) {
+        statusMessageElement.remove();
+        statusMessageElement = null;
+    }
+}
+
 // 3. Main Chat Logic
 input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') {
@@ -103,6 +141,8 @@ input.addEventListener('keydown', function(e) {
         // UI Updates
         addMessage(text, 'user-message', 'User');
         core.classList.add('thinking');
+
+        startThinkingAnim();
 
         Terminal.log(`UPLINK: Sending ${text.length} bytes`, 'info');
         Terminal.log(`PAYLOAD: { mode: "${currentMode}", level: ${currentSeniority} }`, 'info');
@@ -118,6 +158,7 @@ input.addEventListener('keydown', function(e) {
             return response.json();
         })
         .then(data => {
+            stopThinkingAnim();
             core.classList.remove('thinking');
             Terminal.log(`DOWNLINK: Received ${data.response.length} chars`, 'info');
             if (data.response.includes('[SECURITY_ALERT]')) {
@@ -130,6 +171,7 @@ input.addEventListener('keydown', function(e) {
         })
         .catch(error => {
             console.error('Error:', error);
+            stopThinkingAnim();
             core.classList.remove('thinking');
             Terminal.log("CONNECTION_ERROR: Server Unreachable", 'error');
             addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST</span>', 'ai-message', 'SYSTEM');

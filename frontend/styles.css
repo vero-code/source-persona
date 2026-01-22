@@ -605,3 +605,28 @@ input:checked ~ #tech-label { opacity: 1 !important; }
     from { opacity: 0; transform: translateX(-5px); }
     to { opacity: 1; transform: translateX(0); }
 }
+
+/* --- Holographic Status Line (In-Chat) --- */
+.holo-status {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+    opacity: 0.9;
+    letter-spacing: 1px;
+    font-weight: 600;
+    animation: status-pulse 1s infinite alternate;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.holo-status::before {
+    content: '⚡';
+    font-size: 1rem;
+}
+
+@keyframes status-pulse {
+    0% { opacity: 0.6; text-shadow: 0 0 2px var(--accent-cyan); }
+    100% { opacity: 1; text-shadow: 0 0 10px var(--accent-cyan); }
+}
