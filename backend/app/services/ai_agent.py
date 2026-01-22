@@ -100,56 +100,65 @@ INSTRUCTIONS:
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
-            return {"error": "Profile data not found. Please run github_sync.py first."}
+            print("⚠️ Profile data not found. Please run github_sync.py first.")
+            return {"projects": []}
 
     def _load_resume_pdf(self):
         """Loads and extracts text from resume.pdf"""
         try:
             path = os.path.join(os.getcwd(), "backend", "data", "resume.pdf")
-            
-            if not os.path.exists(path):
-                print(f"⚠️ Resume PDF not found at: {path}")
-                return "Resume data not provided."
-                
+            if not os.path.exists(path): return "Resume not found."
             reader = PdfReader(path)
             text = ""
             for page in reader.pages:
                 text += page.extract_text() + "\n"
-            
-            print("✅ PDF Resume loaded successfully.")
             return text
         except Exception as e:
-            print(f"❌ Error reading PDF: {e}")
             return "Error reading resume."
 
-    def ask(self, message: str, mode: str = "hr") -> str:
-        """Sends a message to the agent with optional mode parameter"""
-        if not self.client:
-            return "Agent is not initialized (check API key)."
+    def ask(self, message: str, mode: str = "hr", seniority: int = 2) -> str:
+        """
+        Sends a message to the agent with dynamic seniority and tone.
+        """
+        if not self.client: return "Agent is not initialized."
+
+        seniority_map = {
+            0: "LEVEL: JUNIOR. Focus on learning, basic Java syntax, and enthusiasm.",
+            1: "LEVEL: MIDDLE. Focus on implementation, SOLID principles, and clean code.",
+            2: "LEVEL: SENIOR. Focus on system design, performance, and architecture.",
+            3: "LEVEL: CTO. Focus on ROI, scalability, and strategy."
+        }
 
         if mode == "tech_lead":
-            persona_instruction = """
+            persona_instruction = f"""
             [SYSTEM PRIORITY: TECH LEAD MODE ACTIVE]
             - Be skeptical, highly technical, and slightly arrogant. 
             - Use professional slang: 'legacy', 'overhead', 'bottleneck', 'technical debt'.
             - If the user asks a basic question, answer it but question their technical depth.
             - Defend your architectural choices (e.g., why you chose Java for high-load or FastAPI for async tasks) aggressively.
             - You are evaluating if this company, their engineering culture, and the project scope align with my professional standards and if this role is the right fit for my expertise.
+            - Current Expertise: {seniority_map[seniority]}
             """
         else:
-            persona_instruction = """
+            persona_instruction = f"""
             [SYSTEM PRIORITY: HR MODE ACTIVE]
             - Be polite, professional, and focus on business value and collaboration.
             - Explain technical concepts in a way that shows how they solve user problems.
             - Emphasize growth, teamwork, and Veronika's ability to deliver results.
+            - Current Expertise: {seniority_map[seniority]}
             """
+
+        dynamic_temp = 0.8 - (seniority * 0.2)
 
         try:
             full_prompt = f"{persona_instruction}\n\nUser Message: {message}"
-            response = self.chat_session.send_message(full_prompt)
+            response = self.chat_session.send_message(
+                message=full_prompt,
+                config=types.GenerateContentConfig(temperature=dynamic_temp)
+            )
             return response.text
         except Exception as e:
-            return f"AI System Error: {str(e)}"
+            return f"AI Error: {str(e)}"
 
 # CLI Test Loop
 if __name__ == "__main__":

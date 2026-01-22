@@ -1,9 +1,15 @@
 const input = document.getElementById('user-input');
 const history = document.getElementById('chat-history');
 const core = document.getElementById('ai-core');
+
+// --- TOGGLES & SLIDERS ---
 const modeToggle = document.getElementById('challenge-mode-toggle');
 const hrLabel = document.getElementById('hr-label');
 const techLabel = document.getElementById('tech-label');
+
+const senioritySlider = document.getElementById('seniority-slider');
+const seniorityDisplay = document.getElementById('seniority-display');
+const seniorityLevels = ["Junior", "Middle", "Senior", "CTO"];
 
 // Initialize Mermaid
 if (typeof mermaid !== 'undefined') {
@@ -27,22 +33,64 @@ setInterval(() => {
     const mem = Math.floor(Math.random() * 20) + 60;
     const lat = Math.floor(Math.random() * 30) + 5;
 
-    document.getElementById('cpu-val').innerText = `${cpu}%`;
-    document.getElementById('cpu-bar').style.width = `${cpu}%`;
+    const cpuVal = document.getElementById('cpu-val');
+    const cpuBar = document.getElementById('cpu-bar');
+    if (cpuVal && cpuBar) {
+        cpuVal.innerText = `${cpu}%`;
+        cpuBar.style.width = `${cpu}%`;
+    }
     
-    document.getElementById('mem-val').innerText = `${(mem * 0.04).toFixed(1)}GB`;
-    document.getElementById('mem-bar').style.width = `${mem}%`;
+    const memVal = document.getElementById('mem-val');
+    const memBar = document.getElementById('mem-bar');
+    if (memVal && memBar) {
+        memVal.innerText = `${(mem * 0.04).toFixed(1)}GB`;
+        memBar.style.width = `${mem}%`;
+    }
 
-    document.getElementById('lat-val').innerText = `${lat}ms`;
-    document.getElementById('lat-bar').style.width = `${lat}%`;
+    const latVal = document.getElementById('lat-val');
+    const latBar = document.getElementById('lat-bar');
+    if (latVal && latBar) {
+        latVal.innerText = `${lat}ms`;
+        latBar.style.width = `${lat}%`;
+    }
 }, 3000);
 
+// --- EVENT LISTENERS ---
+
+// 1. Slider Logic (Junior -> CTO)
+if (senioritySlider && seniorityDisplay) {
+    senioritySlider.addEventListener('input', function() {
+        const val = parseInt(this.value);
+        seniorityDisplay.innerText = seniorityLevels[val];
+        // Visual feedback (optional color change)
+        if (val === 3) seniorityDisplay.style.color = '#bc13fe'; // Purple for CTO
+        else seniorityDisplay.style.color = 'var(--accent-cyan)';
+    });
+}
+
+// 2. Mode Toggle Logic (HR -> Tech Lead)
+if (modeToggle) {
+    modeToggle.addEventListener('change', () => {
+        if (modeToggle.checked) {
+            techLabel.style.opacity = "1";
+            hrLabel.style.opacity = "0.5";
+            console.log("PERSONA: Tech Lead Protocol Activated");
+        } else {
+            techLabel.style.opacity = "0.5";
+            hrLabel.style.opacity = "1";
+            console.log("PERSONA: HR Protocol Activated");
+        }
+    });
+}
+
+// 3. Chat Input Logic
 input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') {
         const text = this.value;
         this.value = '';
 
-        const currentMode = modeToggle.checked ? 'tech_lead' : 'hr';
+        const currentMode = modeToggle && modeToggle.checked ? 'tech_lead' : 'hr';
+        const currentSeniority = senioritySlider ? parseInt(senioritySlider.value) : 2; // Default to Senior (2)
         
         // Add User Message
         addMessage(text, 'user-message', 'User');
@@ -56,7 +104,7 @@ input.addEventListener('keydown', function(e) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message: text, mode: currentMode }),
+            body: JSON.stringify({ message: text, mode: currentMode, seniority: currentSeniority }),
         })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
@@ -75,17 +123,7 @@ input.addEventListener('keydown', function(e) {
     }
 });
 
-modeToggle.addEventListener('change', () => {
-    if (modeToggle.checked) {
-        techLabel.style.opacity = "1";
-        hrLabel.style.opacity = "0.5";
-        console.log("PERSONA: Tech Lead Protocol Activated");
-    } else {
-        techLabel.style.opacity = "0.5";
-        hrLabel.style.opacity = "1";
-        console.log("PERSONA: HR Protocol Activated");
-    }
-});
+// --- HELPER FUNCTIONS ---
 
 function addMessage(content, type, label) {
     const msg = document.createElement('div');

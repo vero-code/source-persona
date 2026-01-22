@@ -13,6 +13,7 @@ agent = AIAgentService()
 class UserMessage(BaseModel):
     message: str
     mode: str = "hr"
+    seniority: int = 2
 
 # 3. API Endpoints
 @app.post("/api/chat")

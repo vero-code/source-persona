@@ -43,6 +43,7 @@
                 <div class="stat-bar-container"><div id="lat-bar" class="stat-bar" style="width: 15%;"></div></div>
             </div>
 
+            <!-- Persona Protocol -->
             <div class="sidebar-title" style="margin-top: 20px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px;">
                 Persona Protocol
             </div>
@@ -54,6 +55,21 @@
                     <span class="slider"></span>
                 </label>
                 <div class="mode-label" id="tech-label" style="color: var(--accent-purple); opacity: 0.5;">TECH LEAD</div>
+            </div>
+
+            <!-- Seniority Slider -->
+            <div class="sidebar-title" style="margin-top: 20px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px;">
+                Experience Level: <span id="seniority-display" style="color: var(--accent-cyan);">Senior</span>
+            </div>
+
+            <div class="seniority-container" style="padding: 10px 0;">
+                <input type="range" id="seniority-slider" min="0" max="3" step="1" value="2" class="cyber-slider">
+                <div class="slider-labels" style="display: flex; justify-content: space-between; font-size: 0.6rem; opacity: 0.5; margin-top: 8px; font-family: 'Fira Code';">
+                    <span>JUN</span>
+                    <span>MID</span>
+                    <span>SEN</span>
+                    <span>CTO</span>
+                </div>
             </div>
         </aside>
 
