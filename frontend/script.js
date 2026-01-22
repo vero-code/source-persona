@@ -12,6 +12,28 @@ const senioritySlider = document.getElementById('seniority-slider');
 const seniorityDisplay = document.getElementById('seniority-display');
 const seniorityLevels = ["Junior", "Middle", "Senior", "CTO"];
 
+// --- MOBILE MENU TOGGLE ---
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const sidebarLeft = document.querySelector('.sidebar-left');
+
+if (mobileMenuBtn && sidebarLeft) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent immediate closing
+        sidebarLeft.classList.toggle('open');
+        mobileMenuBtn.innerText = sidebarLeft.classList.contains('open') ? '✕' : '☰';
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', (e) => {
+        if (sidebarLeft.classList.contains('open') && 
+            !sidebarLeft.contains(e.target) && 
+            e.target !== mobileMenuBtn) {
+            sidebarLeft.classList.remove('open');
+            mobileMenuBtn.innerText = '☰';
+        }
+    });
+}
+
 // Initialize Mermaid
 if (typeof mermaid !== 'undefined') {
     mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose', fontFamily: 'Fira Code' });

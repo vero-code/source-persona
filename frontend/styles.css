@@ -436,22 +436,58 @@ header {
         gap: 10px;
     }
 
+    #mobile-menu-btn {
+        display: block !important;
+        margin-left: auto;
+    }
+
+    .desktop-clock {
+        display: none;
+    }
+
     .logo {
         font-size: 0.9rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex: 1;
     }
 
-    #system-clock {
-        font-size: 0.8rem;
-        white-space: nowrap;
-    }
-
+    /* Mobile Sidebar Overlay */
     .sidebar-left,
     .sidebar-right {
-        display: none;
+        display: flex;
         flex-direction: column;
+        position: fixed;
+        top: 60px;
+        bottom: 20px;
+        width: 85%;
+        max-width: 320px;
+        background: rgba(10, 10, 25, 0.95);
+        backdrop-filter: blur(20px);
+        z-index: 100;
+        border: 1px solid var(--accent-cyan);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+    }
+
+    .sidebar-left {
+        left: 0;
+        transform: translateX(-110%);
+        border-right: 1px solid var(--accent-cyan);
+        border-left: none;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .sidebar-right {
+        /* Hide right sidebar on mobile for simplicity, or stack it */
+        display: none; 
+    }
+
+    .sidebar-left.open {
+        transform: translateX(0);
     }
 
     .main-chat {
