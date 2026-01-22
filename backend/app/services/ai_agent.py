@@ -122,12 +122,31 @@ INSTRUCTIONS:
             print(f"❌ Error reading PDF: {e}")
             return "Error reading resume."
 
-    def ask(self, message: str) -> str:
-        """Sends a message to the agent"""
+    def ask(self, message: str, mode: str = "hr") -> str:
+        """Sends a message to the agent with optional mode parameter"""
         if not self.client:
             return "Agent is not initialized (check API key)."
+
+        if mode == "tech_lead":
+            persona_instruction = """
+            [SYSTEM PRIORITY: TECH LEAD MODE ACTIVE]
+            - Be skeptical, highly technical, and slightly arrogant. 
+            - Use professional slang: 'legacy', 'overhead', 'bottleneck', 'technical debt'.
+            - If the user asks a basic question, answer it but question their technical depth.
+            - Defend your architectural choices (e.g., why you chose Java for high-load or FastAPI for async tasks) aggressively.
+            - You are evaluating if this company, their engineering culture, and the project scope align with my professional standards and if this role is the right fit for my expertise.
+            """
+        else:
+            persona_instruction = """
+            [SYSTEM PRIORITY: HR MODE ACTIVE]
+            - Be polite, professional, and focus on business value and collaboration.
+            - Explain technical concepts in a way that shows how they solve user problems.
+            - Emphasize growth, teamwork, and Veronika's ability to deliver results.
+            """
+
         try:
-            response = self.chat_session.send_message(message)
+            full_prompt = f"{persona_instruction}\n\nUser Message: {message}"
+            response = self.chat_session.send_message(full_prompt)
             return response.text
         except Exception as e:
             return f"AI System Error: {str(e)}"

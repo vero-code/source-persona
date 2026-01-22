@@ -12,6 +12,7 @@ agent = AIAgentService()
 # 2. Models
 class UserMessage(BaseModel):
     message: str
+    mode: str = "hr"
 
 # 3. API Endpoints
 @app.post("/api/chat")
@@ -19,7 +20,7 @@ async def chat(user_msg: UserMessage):
     """
     Accepts a user message, calls the AI agent, and returns the response.
     """
-    response = agent.ask(user_msg.message)
+    response = agent.ask(user_msg.message, mode=user_msg.mode)
     return {"response": response}
 
 # 4. Static Files (Serve Frontend)

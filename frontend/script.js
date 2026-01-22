@@ -1,6 +1,9 @@
 const input = document.getElementById('user-input');
 const history = document.getElementById('chat-history');
 const core = document.getElementById('ai-core');
+const modeToggle = document.getElementById('challenge-mode-toggle');
+const hrLabel = document.getElementById('hr-label');
+const techLabel = document.getElementById('tech-label');
 
 // Initialize Mermaid
 if (typeof mermaid !== 'undefined') {
@@ -38,6 +41,8 @@ input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') {
         const text = this.value;
         this.value = '';
+
+        const currentMode = modeToggle.checked ? 'tech_lead' : 'hr';
         
         // Add User Message
         addMessage(text, 'user-message', 'User');
@@ -51,7 +56,7 @@ input.addEventListener('keydown', function(e) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ message: text }),
+            body: JSON.stringify({ message: text, mode: currentMode }),
         })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
@@ -70,6 +75,18 @@ input.addEventListener('keydown', function(e) {
     }
 });
 
+modeToggle.addEventListener('change', () => {
+    if (modeToggle.checked) {
+        techLabel.style.opacity = "1";
+        hrLabel.style.opacity = "0.5";
+        console.log("PERSONA: Tech Lead Protocol Activated");
+    } else {
+        techLabel.style.opacity = "0.5";
+        hrLabel.style.opacity = "1";
+        console.log("PERSONA: HR Protocol Activated");
+    }
+});
+
 function addMessage(content, type, label) {
     const msg = document.createElement('div');
     msg.className = `message ${type}`;
@@ -83,7 +100,9 @@ function addMessage(content, type, label) {
         content = content.replace('[SECURITY_ALERT]', 
             `<img src="${alertGif}" class="security-gif" style="width:100%; border-radius:8px; margin-top:10px; border: 2px solid #ff4d4d;">`);
     } else {
-        document.body.classList.remove('security-alert');
+        if (!content.includes('Access Denied')) {
+            document.body.classList.remove('security-alert');
+        }
     }
 
     let parsedContent = content;
