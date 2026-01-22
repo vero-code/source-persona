@@ -446,3 +446,26 @@ header {
         display: none;
     }
 }
+
+/* --- Security Alert Mode --- */
+body.security-alert {
+    --accent-cyan: #ff4d4d;
+    --accent-purple: #ff0000;
+    --shadow-cyan: 0 0 20px rgba(255, 77, 77, 0.6);
+    background-color: #1a0505;
+    transition: all 0.5s ease;
+}
+
+body.security-alert .ai-core {
+    background: radial-gradient(circle, #ff4d4d 0%, transparent 70%);
+    box-shadow: 0 0 50px #ff4d4d;
+}
+
+body.security-alert .panel::before {
+    background: linear-gradient(90deg, transparent, #ff4d4d, transparent);
+}
+
+body.security-alert #user-input {
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}

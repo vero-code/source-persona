@@ -74,6 +74,18 @@ function addMessage(content, type, label) {
     const msg = document.createElement('div');
     msg.className = `message ${type}`;
 
+    // --- SECURITY DEFENSE LOGIC ---
+    if (content.includes('[SECURITY_ALERT]')) {
+        console.log("🚨 SECURITY ALERT DETECTED! Switching UI to RED.");
+        document.body.classList.add('security-alert');
+        
+        const alertGif = "./public/alert.gif";
+        content = content.replace('[SECURITY_ALERT]', 
+            `<img src="${alertGif}" class="security-gif" style="width:100%; border-radius:8px; margin-top:10px; border: 2px solid #ff4d4d;">`);
+    } else {
+        document.body.classList.remove('security-alert');
+    }
+
     let parsedContent = content;
 
     if (typeof marked === 'undefined') {
