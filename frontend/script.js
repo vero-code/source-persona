@@ -13,47 +13,53 @@ const seniorityLevels = ["Junior", "Middle", "Senior", "CTO"];
 
 // Initialize Mermaid
 if (typeof mermaid !== 'undefined') {
-    mermaid.initialize({
-        startOnLoad: false,
-        theme: 'dark',
-        securityLevel: 'loose',
-        fontFamily: 'Fira Code'
-    });
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose', fontFamily: 'Fira Code' });
 }
 
-// Clock Update
+// --- TERMINAL ---
+const Terminal = {
+    element: document.getElementById('debug-console'),
+    log: function(message, type = 'info') {
+        if (!this.element) return;
+        const entry = document.createElement('div');
+        const time = new Date().toLocaleTimeString('en-GB', { hour12: false });
+        let cssClass = 'log-info';
+        if (type === 'warn') cssClass = 'log-warn';
+        if (type === 'error') cssClass = 'log-error';
+        if (type === 'sys') cssClass = 'log-sys';
+        entry.className = `log-entry ${cssClass}`;
+        entry.innerHTML = `<span class="log-time">[${time}]</span> ${message}`;
+        this.element.appendChild(entry);
+        this.element.scrollTop = this.element.scrollHeight;
+        if (this.element.children.length > 50) {
+            this.element.removeChild(this.element.firstChild);
+        }
+    }
+};
+
+// --- BACKGROUND TASKS ---
 setInterval(() => {
-    const now = new Date();
-    document.getElementById('system-clock').innerText = now.toTimeString().split(' ')[0];
+    document.getElementById('system-clock').innerText = new Date().toLocaleTimeString();
 }, 1000);
 
-// Random Stat Animation
 setInterval(() => {
     const cpu = Math.floor(Math.random() * 40) + 20;
     const mem = Math.floor(Math.random() * 20) + 60;
     const lat = Math.floor(Math.random() * 30) + 5;
 
-    const cpuVal = document.getElementById('cpu-val');
-    const cpuBar = document.getElementById('cpu-bar');
-    if (cpuVal && cpuBar) {
-        cpuVal.innerText = `${cpu}%`;
-        cpuBar.style.width = `${cpu}%`;
-    }
-    
-    const memVal = document.getElementById('mem-val');
-    const memBar = document.getElementById('mem-bar');
-    if (memVal && memBar) {
-        memVal.innerText = `${(mem * 0.04).toFixed(1)}GB`;
-        memBar.style.width = `${mem}%`;
-    }
-
-    const latVal = document.getElementById('lat-val');
-    const latBar = document.getElementById('lat-bar');
-    if (latVal && latBar) {
-        latVal.innerText = `${lat}ms`;
-        latBar.style.width = `${lat}%`;
-    }
+    updateStat('cpu-val', 'cpu-bar', `${cpu}%`, cpu);
+    updateStat('mem-val', 'mem-bar', `${(mem * 0.04).toFixed(1)}GB`, mem);
+    updateStat('lat-val', 'lat-bar', `${lat}ms`, lat);
 }, 3000);
+
+function updateStat(textId, barId, text, percent) {
+    const textEl = document.getElementById(textId);
+    const barEl = document.getElementById(barId);
+    if (textEl && barEl) {
+        textEl.innerText = text;
+        barEl.style.width = `${percent}%`;
+    }
+}
 
 // --- EVENT LISTENERS ---
 
@@ -62,9 +68,11 @@ if (senioritySlider && seniorityDisplay) {
     senioritySlider.addEventListener('input', function() {
         const val = parseInt(this.value);
         seniorityDisplay.innerText = seniorityLevels[val];
-        // Visual feedback (optional color change)
-        if (val === 3) seniorityDisplay.style.color = '#bc13fe'; // Purple for CTO
+        if (val === 3) seniorityDisplay.style.color = '#bc13fe';
         else seniorityDisplay.style.color = 'var(--accent-cyan)';
+        const temp = (0.8 - (val * 0.2)).toFixed(1);
+        Terminal.log(`SENIORITY_LEVEL adjusted to ${seniorityLevels[val].toUpperCase()} (${val})`, 'sys');
+        Terminal.log(`MODEL_CONFIG: Temperature set to ${temp}`, 'sys');
     });
 }
 
@@ -74,36 +82,36 @@ if (modeToggle) {
         if (modeToggle.checked) {
             techLabel.style.opacity = "1";
             hrLabel.style.opacity = "0.5";
-            console.log("PERSONA: Tech Lead Protocol Activated");
+            Terminal.log("PROTOCOL_OVERRIDE: Switching to TECH_LEAD mode", 'warn');
+            Terminal.log("Loading aggressive_architect.json...", 'info');
         } else {
             techLabel.style.opacity = "0.5";
             hrLabel.style.opacity = "1";
-            console.log("PERSONA: HR Protocol Activated");
+            Terminal.log("PROTOCOL_RESTORE: Switching to HR_FRIENDLY mode", 'sys');
         }
     });
 }
 
-// 3. Chat Input Logic
+// 3. Main Chat Logic
 input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && this.value.trim() !== '') {
         const text = this.value;
         this.value = '';
 
         const currentMode = modeToggle && modeToggle.checked ? 'tech_lead' : 'hr';
-        const currentSeniority = senioritySlider ? parseInt(senioritySlider.value) : 2; // Default to Senior (2)
+        const currentSeniority = senioritySlider ? parseInt(senioritySlider.value) : 2;
         
-        // Add User Message
+        // UI Updates
         addMessage(text, 'user-message', 'User');
-        
-        // Thinking State
         core.classList.add('thinking');
+
+        Terminal.log(`UPLINK: Sending ${text.length} bytes`, 'info');
+        Terminal.log(`PAYLOAD: { mode: "${currentMode}", level: ${currentSeniority} }`, 'info');
         
         // Send to Backend API
         fetch('/api/chat', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text, mode: currentMode, seniority: currentSeniority }),
         })
         .then(response => {
@@ -112,28 +120,33 @@ input.addEventListener('keydown', function(e) {
         })
         .then(data => {
             core.classList.remove('thinking');
+            Terminal.log(`DOWNLINK: Received ${data.response.length} chars`, 'info');
+            if (data.response.includes('[SECURITY_ALERT]')) {
+                Terminal.log("🚨 THREAT DETECTED: Prompt Injection", 'error');
+                Terminal.log("ACTION: Executing Security Protocol", 'error');
+            } else {
+                Terminal.log("RAG_VERIFICATION: PASS", 'info');
+            }
             addMessage(data.response, 'ai-message', 'Veronika AI');
         })
         .catch(error => {
             console.error('Error:', error);
             core.classList.remove('thinking');
-            addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST: SERVER UNREACHABLE</span>', 'ai-message', 'SYSTEM');
+            Terminal.log("CONNECTION_ERROR: Server Unreachable", 'error');
+            addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST</span>', 'ai-message', 'SYSTEM');
         });
 
     }
 });
 
-// --- HELPER FUNCTIONS ---
-
+// --- HELPER: Message Rendering ---
 function addMessage(content, type, label) {
     const msg = document.createElement('div');
     msg.className = `message ${type}`;
 
-    // --- SECURITY DEFENSE LOGIC ---
+    // --- Security Alert Handling ---
     if (content.includes('[SECURITY_ALERT]')) {
-        console.log("🚨 SECURITY ALERT DETECTED! Switching UI to RED.");
         document.body.classList.add('security-alert');
-        
         const alertGif = "./public/alert.gif";
         content = content.replace('[SECURITY_ALERT]', 
             `<img src="${alertGif}" class="security-gif" style="width:100%; border-radius:8px; margin-top:10px; border: 2px solid #ff4d4d;">`);
@@ -144,38 +157,24 @@ function addMessage(content, type, label) {
     }
 
     let parsedContent = content;
-
-    if (typeof marked === 'undefined') {
-        console.error('Error: Marked library not found!');
-    } else {
-        try {
-            parsedContent = marked.parse(content);
-        } catch (error) {
-            console.error('Error parsing Markdown:', error);
-        }
+    if (typeof marked !== 'undefined') { 
+        try { parsedContent = marked.parse(content); } catch (e) { console.error(e); }
     }
-    msg.innerHTML = `
-        <div class="message-label">${label}</div>
-        <div class="markdown-content">${parsedContent}</div>
-    `;
+    msg.innerHTML = `<div class="message-label">${label}</div><div class="markdown-content">${parsedContent}</div>`;
     history.appendChild(msg);
 
-    // Initial Render for Mermaid
+    // Mermaid Rendering
     if (typeof mermaid !== 'undefined') {
         const mermaidBlocks = msg.querySelectorAll('pre code.language-mermaid');
         mermaidBlocks.forEach((block, index) => {
             const graphDefinition = block.textContent;
             const uniqueId = `mermaid-${Date.now()}-${index}`;
-            const mermaidContainer = document.createElement('div');
-            mermaidContainer.className = 'mermaid';
-            mermaidContainer.id = uniqueId;
-            mermaidContainer.textContent = graphDefinition;
-            
-            block.parentElement.replaceWith(mermaidContainer);
-            
-            mermaid.run({
-                nodes: [mermaidContainer]
-            });
+            const container = document.createElement('div');
+            container.className = 'mermaid';
+            container.id = uniqueId;
+            container.textContent = graphDefinition;
+            block.parentElement.replaceWith(container);
+            try { mermaid.run({ nodes: [container] }); } catch (e) { console.error(e); }
         });
     }
 
