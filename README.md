@@ -1,5 +1,5 @@
 # 🤖 Source Persona // AI Digital Twin
-![Gemini 3](https://img.shields.io/badge/AI-Gemini_3-8E75B2?style=for-the-badge&logo=googlebard) ![Cloud Run](https://img.shields.io/badge/Deploy-Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud) ![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker) ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge) 
+![Version](https://img.shields.io/badge/Version-1.2.0-FF00FF?style=for-the-badge) ![Gemini 3](https://img.shields.io/badge/AI-Gemini_3-8E75B2?style=for-the-badge&logo=googlebard) ![Cloud Run](https://img.shields.io/badge/Deploy-Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud) ![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=for-the-badge&logo=docker) ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge) 
 
 **An Autonomous AI Digital Twin representing the next generation of developer portfolios.** 
 
@@ -43,23 +43,39 @@ graph TD
 
 ## ✨ Key Features
 
--   **🧠 Hybrid RAG Protocol (PDF + JSON):** The AI connects generative power with a dual-memory system. It processes a **static PDF Resume** for historical context (education, work history) and a **dynamic GitHub JSON** for real-time coding proof.
-    
--   **🗣️ Reverse Interview Capability:** Unlike passive bots, this "Senior-level" twin evaluates the recruiter. It occasionally asks sharp follow-up questions about engineering culture, CI/CD maturity, and technical debt.
-    
--   **🛡️ Prompt Injection Defense:** Features a custom security layer that detects jailbreak attempts. If an attack is detected, the UI triggers a **Red Alert Mode**, switching the HUD to red and deploying an "Access Denied" defense.
-    
--   **📊 Visualized Architecture (Mermaid.js):** The agent doesn't just explain code; it draws it. Integration with **Mermaid.js** allows the Twin to render real-time system diagrams and flowcharts directly in the chat.
-    
--   **🎭 Adaptive Persona System:** Mimics the communication style of a Senior Engineer—professional, concise, and visionary—citing specific project metrics.
-    
--   **💎 Cyberpunk HUD (UX/UI Improvements):**
-    
-    -   **Markdown Support:** Full rendering of technical documentation and code blocks.
-        
-    -   **Input Field Highlight:** Real-time focus effects for an immersive terminal feel.
-        
-    -   **Embed Adaptability:** Responsive design optimized for standalone use or integration into external sites.
+🧠 **Core Intelligence & Persona**
+
+- **🎚️ Dynamic Seniority Slider:** Adjust the AI's "IQ" and experience level in real-time. Slide from **Junior** (enthusiastic learner) to **CTO** (strategic, ROI-focused) to see how the answers change complexity.
+
+- **🎭 Challenge Mode (HR vs Tech Lead):** A dual-protocol toggle.
+	-   _HR Mode:_ Polite, diplomatic, focuses on soft skills and team fit.
+	-  _Tech Lead Mode:_ Ruthless, technical, critical of "spaghetti code," and focused on architecture and latency.
+
+-  **🧠 Hybrid RAG Protocol (PDF + JSON):** The AI connects generative power with a dual-memory system. It processes a **static PDF Resume** for historical context (education, work history) and a **dynamic GitHub JSON** for real-time coding proof.
+
+-  **🗣️ Reverse Interview Capability:** Unlike passive bots, this "Senior-level" twin evaluates the recruiter. It occasionally asks sharp follow-up questions about engineering culture, CI/CD maturity, and technical debt.
+
+🖥️ **Cyberpunk HUD & Interface**
+
+- **📟 Live "Matrix" Terminal:** A real-time debug console (Right Sidebar) that visualizes the backend logic: RAG retrieval status, token usage, security checks, and latency metrics.
+
+- **💭 Visualized "Chain of Thought":** A holographic status line that reveals the AI's internal process (_Establishing Uplink -> Querying Vector DB -> Analyzing Context_) before generating a response.
+
+- **📱 Adaptive UI:** Fully responsive design with collapsible sidebars (Menu/Terminal) for seamless use on smartphones or integration into external sites.
+
+- **⚡ Suggestion Chips:** Quick-start interaction buttons for immediate engagement (_"Who are you?", "Tech Stack?", "Experience?"_).
+
+- **✏️ Markdown Support:** Full rendering of technical documentation and code blocks.
+
+- **⌨️ Input Field Highlight:** Real-time focus effects for an immersive terminal feel.
+
+🛡️ **Security & Utilities**
+
+- **📄 Automated HR Report Generator:** Generates a downloadable **PDF Technical Assessment** on the fly. The AI analyzes the chat history, grades the candidate's skills based on the conversation, and provides a "Hire/No Hire" verdict.
+
+- **🛡️ Prompt Injection Defense:** Features a custom security layer that detects jailbreak attempts. If an attack is detected, the UI triggers a **Red Alert Mode**, switching the HUD to red and deploying an "Access Denied" defense.
+
+- **📊 Visualized Architecture (Mermaid.js):** The agent doesn't just explain code; it draws it. Integration with **Mermaid.js** allows the Twin to render real-time system diagrams and flowcharts directly in the chat.
 
 
 ## 🛠️ Tech Stack
@@ -70,7 +86,7 @@ graph TD
 
 -   **Dev Environment:** Google **Antigravity**.
 
--   **Backend:** Python 3.10, FastAPI, pypdf (Resume parsing).
+-   **Backend:** Python 3.10, FastAPI, pypdf (Resume parsing), fpdf2 (Report Gen).
 
 -   **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism), JavaScript (Custom FUI).
 
@@ -142,6 +158,25 @@ python backend/app/main.py
 ```
 
 *Visit `http://localhost:8000` to interact with the Source Persona.*
+
+
+## 📜 Changelog (v1.2.0)
+
+-   **Feat:** Integrated "Challenge Mode" (Tech Lead vs HR personas).
+
+-   **Feat:** Added "Seniority Slider" (Junior to CTO intelligence adjustment).
+
+-   **UI:** Added "System Terminal" (Right Sidebar) for live debugging.
+
+-   **Fix:** Refined Security Protocol priority logic.
+
+-   **UI:** Implemented "Chain of Thought" holographic visualization.
+
+-   **Fix:** Footer positioning & Mobile layout adjustments.
+
+-   **UI:** Added Suggestion Chips & Mobile Sidebar toggle.
+
+-   **Feat:** Added "HR Report Generator" (PDF Download).
 
 
 ## 🎯 The "New Year, New You" Vision
