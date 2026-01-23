@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-01-03 16:01:16.292997",
-  "total_projects_2025_2026": 37,
+  "generated_at": "2026-01-23 20:58:46.037127",
+  "total_projects_2025_2026": 39,
   "projects": [
     {
       "name": "venture-assist-ai",
       "description": "An intelligent assistant designed to streamline common tasks for startup founders and entrepreneurs, powered by Google's Agent Development Kit and Gemini Pro/Flash. It automates Google Workspace interactions (Drive, Calendar, Slides) to save time and boost productivity.",
       "url": "https://github.com/vero-code/venture-assist-ai",
-      "stars": 6,
+      "stars": 7,
       "language": "Python",
       "topics": [
         "agents",
@@ -30,7 +30,7 @@
         "tailwindcss",
         "vite"
       ],
-      "last_update": "2025-12-13",
+      "last_update": "2026-01-04",
       "is_fork": false
     },
     {
@@ -62,6 +62,52 @@
         "x-api"
       ],
       "last_update": "2025-09-03",
+      "is_fork": false
+    },
+    {
+      "name": "celestine",
+      "description": "Celestine: An intelligent, multi-modal AI navigator for the Solar System, extending the dream of Google Maps to the cosmos. 🚀",
+      "url": "https://github.com/vero-code/celestine",
+      "stars": 1,
+      "language": "JavaScript",
+      "topics": [
+        "agent-development-kit",
+        "cloud-run",
+        "docker",
+        "elevenlabs",
+        "fastapi",
+        "firebase",
+        "gemini-api",
+        "generative-ai",
+        "google-cloud",
+        "google-maps-platform",
+        "python",
+        "react",
+        "tavus",
+        "threejs"
+      ],
+      "last_update": "2026-01-20",
+      "is_fork": false
+    },
+    {
+      "name": "baseline-aigent",
+      "description": "RAG-powered AI assistant for web developers, grounded in the Baseline standard to generate truly reliable and modern frontend code. 🚀 A Baseline Tooling Hackathon project.",
+      "url": "https://github.com/vero-code/baseline-aigent",
+      "stars": 1,
+      "language": "Python",
+      "topics": [
+        "ai",
+        "baseline",
+        "developer-tools",
+        "fastapi",
+        "gemini",
+        "hackathon",
+        "langchain",
+        "python",
+        "rag",
+        "web-development"
+      ],
+      "last_update": "2026-01-18",
       "is_fork": false
     },
     {
@@ -202,28 +248,55 @@
       "is_fork": false
     },
     {
-      "name": "celestine",
-      "description": "Celestine: An intelligent, multi-modal AI navigator for the Solar System, extending the dream of Google Maps to the cosmos. 🚀",
-      "url": "https://github.com/vero-code/celestine",
+      "name": "source-persona",
+      "description": "♊ An Autonomous AI Digital Twin representing the next generation of developer portfolios. Parses your repository & data to personally answer recruiter questions about your code and experience.",
+      "url": "https://github.com/vero-code/source-persona",
+      "stars": 0,
+      "language": "Python",
+      "topics": [
+        "ai-portfolio",
+        "antigravity",
+        "cyberpunk-ui-enhancer",
+        "digital-twin",
+        "docker",
+        "fastapi",
+        "gemini-api",
+        "google-ai-challenge",
+        "google-ai-studio",
+        "google-cloud-run",
+        "python",
+        "rag"
+      ],
+      "last_update": "2026-01-23",
+      "is_fork": false
+    },
+    {
+      "name": "ethno-lens-ai",
+      "description": "Adobe Express Add-on that analyzes cultural sensitivity of design elements using AI.",
+      "url": "https://github.com/vero-code/ethno-lens-ai",
       "stars": 0,
       "language": "JavaScript",
       "topics": [
-        "agent-development-kit",
-        "cloud-run",
-        "docker",
-        "elevenlabs",
-        "fastapi",
-        "firebase",
-        "gemini-api",
-        "generative-ai",
-        "google-cloud",
-        "google-maps-platform",
-        "python",
-        "react",
-        "tavus",
-        "threejs"
+        "add-on",
+        "adobe",
+        "adobe-express",
+        "ai",
+        "cultural-analytics",
+        "design",
+        "gemini",
+        "generative-ai"
       ],
-      "last_update": "2025-12-28",
+      "last_update": "2026-01-23",
+      "is_fork": false
+    },
+    {
+      "name": "c9-pulse",
+      "description": "No description provided.",
+      "url": "https://github.com/vero-code/c9-pulse",
+      "stars": 0,
+      "language": "Python",
+      "topics": [],
+      "last_update": "2026-01-04",
       "is_fork": false
     },
     {
@@ -273,25 +346,6 @@
       "language": "Java",
       "topics": [],
       "last_update": "2025-12-11",
-      "is_fork": false
-    },
-    {
-      "name": "ethno-lens-ai",
-      "description": "Adobe Express Add-on that analyzes cultural sensitivity of design elements using AI.",
-      "url": "https://github.com/vero-code/ethno-lens-ai",
-      "stars": 0,
-      "language": "JavaScript",
-      "topics": [
-        "add-on",
-        "adobe",
-        "adobe-express",
-        "ai",
-        "cultural-analytics",
-        "design",
-        "gemini",
-        "generative-ai"
-      ],
-      "last_update": "2025-12-04",
       "is_fork": false
     },
     {
@@ -418,27 +472,6 @@
         "unsdg"
       ],
       "last_update": "2025-10-09",
-      "is_fork": false
-    },
-    {
-      "name": "baseline-aigent",
-      "description": "RAG-powered AI assistant for web developers, grounded in the Baseline standard to generate truly reliable and modern frontend code. 🚀 A Baseline Tooling Hackathon project.",
-      "url": "https://github.com/vero-code/baseline-aigent",
-      "stars": 0,
-      "language": "Python",
-      "topics": [
-        "ai",
-        "baseline",
-        "developer-tools",
-        "fastapi",
-        "gemini",
-        "hackathon",
-        "langchain",
-        "python",
-        "rag",
-        "web-development"
-      ],
-      "last_update": "2025-09-28",
       "is_fork": false
     },
     {
