@@ -126,6 +126,8 @@ GEMINI_API_KEY=your_api_key_here
 python backend/app/services/github_sync.py
 ```
 
+*Note: The sync tool will create a `data` folder in the root directory.*
+
 ### 4. Run the Application
 
 You can run the digital twin using **Docker** (Recommended for stability) or **Python** (for development).
