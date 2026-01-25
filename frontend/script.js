@@ -101,6 +101,7 @@ const VoiceSystem = {
                     micBtn.style.color = '';
                     micBtn.style.boxShadow = '';
                 }
+                Terminal.log("VOICE_INPUT: Stopped", 'info');
             };
 
             this.recognition.onresult = (event) => {

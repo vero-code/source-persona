@@ -418,6 +418,29 @@ header {
     text-transform: uppercase;
 }
 
+.footer-separator {
+    margin: 0 15px;
+    color: var(--accent-cyan);
+    opacity: 0.5;
+}
+
+.footer-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(0, 243, 255, 0.05);
+}
+
+.footer-link:hover {
+    color: white;
+    background: rgba(0, 243, 255, 0.2);
+    box-shadow: 0 0 10px var(--accent-cyan);
+    border-color: var(--accent-cyan);
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .hud-container {
