@@ -80,7 +80,7 @@ const VoiceSystem = {
             this.recognition = new SpeechRecognition();
             this.recognition.continuous = false;
             this.recognition.lang = 'en-US';
-            this.recognition.interimResults = false;
+            this.recognition.interimResults = true;
 
             this.recognition.onstart = () => {
                 this.isListening = true;
@@ -102,15 +102,23 @@ const VoiceSystem = {
             };
 
             this.recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                Terminal.log(`VOICE_INPUT: "${transcript}"`, 'info');
+                const result = event.results[event.resultIndex];
+                const transcript = result[0].transcript;
+                
                 if (input) {
                     input.value = transcript;
-                    // Auto-submit
-                    const ke = new KeyboardEvent('keydown', {
-                        key: 'Enter', bubble: true
-                    });
-                    input.dispatchEvent(ke);
+                    
+                    if (result.isFinal) {
+                        Terminal.log(`VOICE_INPUT (FINAL): "${transcript}"`, 'info');
+                        // Auto-submit only on final result
+                        const ke = new KeyboardEvent('keydown', {
+                            key: 'Enter', bubble: true
+                        });
+                        input.dispatchEvent(ke);
+                    } else {
+                         // Optional: Log interim results if needed, or just let them show in input
+                         // Terminal.log(`VOICE_INPUT (INTERIM): "${transcript}"`, 'sys');
+                    }
                 }
             };
         }
