@@ -510,9 +510,16 @@ header {
         gap: 10px;
     }
 
-    #mobile-menu-btn {
+    #mobile-menu-btn, #mobile-terminal-btn {
         display: block !important;
+    }
+
+    #mobile-menu-btn {
         margin-left: auto;
+    }
+
+    #mobile-terminal-btn {
+        margin-left: 15px;
     }
 
     .desktop-clock {
@@ -556,11 +563,16 @@ header {
     }
 
     .sidebar-right {
-        /* Hide right sidebar on mobile for simplicity, or stack it */
-        display: none; 
+        right: 0;
+        transform: translateX(110%);
+        border-left: 1px solid var(--accent-purple);
+        border-right: none;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
     }
 
-    .sidebar-left.open {
+    .sidebar-left.open,
+    .sidebar-right.open {
         transform: translateX(0);
     }
 

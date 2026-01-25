@@ -16,25 +16,42 @@ const seniorityLevels = ["Junior", "Middle", "Senior", "CTO"];
 
 // --- MOBILE MENU TOGGLE ---
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileTerminalBtn = document.getElementById('mobile-terminal-btn');
 const sidebarLeft = document.querySelector('.sidebar-left');
+const sidebarRight = document.querySelector('.sidebar-right');
 
 if (mobileMenuBtn && sidebarLeft) {
     mobileMenuBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent immediate closing
+        e.stopPropagation();
         sidebarLeft.classList.toggle('open');
+        if (sidebarRight) sidebarRight.classList.remove('open');
         mobileMenuBtn.innerText = sidebarLeft.classList.contains('open') ? '✕' : '☰';
     });
+}
 
-    // Close sidebar when clicking outside
-    document.addEventListener('click', (e) => {
-        if (sidebarLeft.classList.contains('open') && 
-            !sidebarLeft.contains(e.target) && 
-            e.target !== mobileMenuBtn) {
-            sidebarLeft.classList.remove('open');
-            mobileMenuBtn.innerText = '☰';
-        }
+if (mobileTerminalBtn && sidebarRight) {
+    mobileTerminalBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebarRight.classList.toggle('open');
+        if (sidebarLeft) sidebarLeft.classList.remove('open');
+        mobileMenuBtn.innerText = '☰'; // Reset menu btn if terminal opens
     });
 }
+
+// Close sidebars when clicking outside
+document.addEventListener('click', (e) => {
+    if (sidebarLeft && sidebarLeft.classList.contains('open') && 
+        !sidebarLeft.contains(e.target) && 
+        e.target !== mobileMenuBtn) {
+        sidebarLeft.classList.remove('open');
+        mobileMenuBtn.innerText = '☰';
+    }
+    if (sidebarRight && sidebarRight.classList.contains('open') && 
+        !sidebarRight.contains(e.target) && 
+        e.target !== mobileTerminalBtn) {
+        sidebarRight.classList.remove('open');
+    }
+});
 
 // Initialize Mermaid
 if (typeof mermaid !== 'undefined') {
