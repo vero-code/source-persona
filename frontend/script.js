@@ -404,55 +404,65 @@ chips.forEach(chip => {
 });
 
 // 3. Main Chat Logic
+function handleSendMessage() {
+    const text = input.value.trim();
+    if (text === '') return;
+
+    input.value = '';
+    const currentMode = modeToggle && modeToggle.checked ? 'tech_lead' : 'hr';
+    const currentSeniority = senioritySlider ? parseInt(senioritySlider.value) : 2;
+    
+    // UI Updates
+    addMessage(text, 'user-message', 'User');
+    core.classList.add('thinking');
+
+    startThinkingAnim();
+
+    Terminal.log(`UPLINK: Sending ${text.length} bytes`, 'info');
+    Terminal.log(`PAYLOAD: { mode: "${currentMode}", level: ${currentSeniority} }`, 'info');
+    
+    // Send to Backend API
+    fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, mode: currentMode, seniority: currentSeniority }),
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        stopThinkingAnim();
+        core.classList.remove('thinking');
+        Terminal.log(`DOWNLINK: Received ${data.response.length} chars`, 'info');
+        if (data.response.includes('[SECURITY_ALERT]')) {
+            Terminal.log("🚨 THREAT DETECTED: Prompt Injection", 'error');
+            Terminal.log("ACTION: Executing Security Protocol", 'error');
+        } else {
+            Terminal.log("RAG_VERIFICATION: PASS", 'info');
+        }
+        addMessage(data.response, 'ai-message', 'Veronika AI');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        stopThinkingAnim();
+        core.classList.remove('thinking');
+        Terminal.log("CONNECTION_ERROR: Server Unreachable", 'error');
+        addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST</span>', 'ai-message', 'SYSTEM');
+    });
+}
+
+// Event Listeners for sending
 input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && this.value.trim() !== '') {
-        const text = this.value;
-        this.value = '';
-
-        const currentMode = modeToggle && modeToggle.checked ? 'tech_lead' : 'hr';
-        const currentSeniority = senioritySlider ? parseInt(senioritySlider.value) : 2;
-        
-        // UI Updates
-        addMessage(text, 'user-message', 'User');
-        core.classList.add('thinking');
-
-        startThinkingAnim();
-
-        Terminal.log(`UPLINK: Sending ${text.length} bytes`, 'info');
-        Terminal.log(`PAYLOAD: { mode: "${currentMode}", level: ${currentSeniority} }`, 'info');
-        
-        // Send to Backend API
-        fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: text, mode: currentMode, seniority: currentSeniority }),
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-        })
-        .then(data => {
-            stopThinkingAnim();
-            core.classList.remove('thinking');
-            Terminal.log(`DOWNLINK: Received ${data.response.length} chars`, 'info');
-            if (data.response.includes('[SECURITY_ALERT]')) {
-                Terminal.log("🚨 THREAT DETECTED: Prompt Injection", 'error');
-                Terminal.log("ACTION: Executing Security Protocol", 'error');
-            } else {
-                Terminal.log("RAG_VERIFICATION: PASS", 'info');
-            }
-            addMessage(data.response, 'ai-message', 'Veronika AI');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            stopThinkingAnim();
-            core.classList.remove('thinking');
-            Terminal.log("CONNECTION_ERROR: Server Unreachable", 'error');
-            addMessage('<span style="color: #ff4d4d; font-weight: bold;">CONNECTION LOST</span>', 'ai-message', 'SYSTEM');
-        });
-
+    if (e.key === 'Enter') {
+        handleSendMessage();
     }
 });
+
+const sendBtn = document.getElementById('send-btn');
+if (sendBtn) {
+    sendBtn.addEventListener('click', handleSendMessage);
+}
 
 // --- HELPER: Message Rendering ---
 function addMessage(content, type, label) {
