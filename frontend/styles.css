@@ -87,6 +87,7 @@ header {
     border-bottom: 1px solid var(--glass-border);
     background: rgba(5, 5, 16, 0.8);
     backdrop-filter: blur(5px);
+    position: relative; /* For absolute centering of persona */
 }
 
 .logo {
@@ -97,6 +98,56 @@ header {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.persona-name-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.persona-name {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+}
+
+.persona-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+.meta-divider {
+    color: var(--accent-cyan);
+    opacity: 0.4;
+}
+
+.meta-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px dashed transparent;
+}
+
+.meta-link:hover {
+    opacity: 1;
+    border-color: var(--accent-cyan);
+    text-shadow: 0 0 8px var(--accent-cyan);
 }
 
 /* Sidebar Elements */
