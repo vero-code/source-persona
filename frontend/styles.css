@@ -402,6 +402,10 @@ header {
 }
 
 /* Input Area */
+.scroll-hint {
+    display: none;
+}
+
 .input-panel {
     grid-column: 2;
     grid-row: 4;
@@ -599,6 +603,46 @@ header {
         font-size: 16px;
         padding: 10px 15px;
         height: 44px;
+    }
+
+    .suggestion-chips {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        position: relative;
+    }
+
+    .scroll-hint {
+        display: block;
+        align-self: flex-end;
+        font-size: 0.6rem;
+        color: var(--accent-cyan);
+        padding: 2px 8px;
+        pointer-events: none;
+        opacity: 0.8;
+        z-index: 10;
+        font-family: 'Fira Code', monospace;
+        letter-spacing: 1px;
+        animation: hint-fade 2s infinite alternate;
+        margin-top: -5px;
+        margin-bottom: 5px;
+        margin-right: 10px;
+    }
+
+    @keyframes hint-fade {
+        from { opacity: 0.4; transform: translateX(0); }
+        to { opacity: 0.9; transform: translateX(-5px); }
+    }
+
+
+    .suggestion-chips::-webkit-scrollbar {
+        display: none;
+    }
+
+    .suggestion-chip {
+        flex-shrink: 0;
     }
 
     .footer-info {

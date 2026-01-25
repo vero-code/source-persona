@@ -438,7 +438,19 @@ function stopThinkingAnim() {
 }
 
 // 2.5 Suggestion Chips Logic
+const chipsContainer = document.getElementById('suggestion-chips');
+const scrollHint = document.getElementById('scroll-hint');
 const chips = document.querySelectorAll('.suggestion-chip');
+
+if (chipsContainer && scrollHint) {
+    chipsContainer.addEventListener('scroll', () => {
+        if (chipsContainer.scrollLeft > 20) {
+            scrollHint.style.opacity = '0';
+            setTimeout(() => { scrollHint.style.display = 'none'; }, 300);
+        }
+    }, { passive: true });
+}
+
 chips.forEach(chip => {
     chip.addEventListener('click', () => {
         const question = chip.getAttribute('data-question');
