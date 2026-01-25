@@ -154,6 +154,7 @@ header {
     align-items: center;
     margin: 20px 0;
     height: 120px;
+    position: relative; /* Added for visualizer overlay */
 }
 
 .ai-core {

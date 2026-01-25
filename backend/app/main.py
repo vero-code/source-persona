@@ -5,10 +5,12 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List
 from backend.app.services.ai_agent import AIAgentService
+from backend.app.services.tts_service import TTSService
 
 # 1. Setup
 app = FastAPI()
 agent = AIAgentService()
+tts_service = TTSService()
 
 # 2. Models
 class UserMessage(BaseModel):
@@ -18,6 +20,9 @@ class UserMessage(BaseModel):
 
 class ReportRequest(BaseModel):
     chat_history: List[dict]
+
+class TTSRequest(BaseModel):
+    text: str
 
 # 3. API Endpoints
 @app.post("/api/chat")
@@ -35,6 +40,14 @@ async def generate_report(request: ReportRequest):
     """
     pdf_bytes = agent.generate_hiring_report(request.chat_history)
     return Response(content=pdf_bytes, media_type="application/pdf")
+
+@app.post("/api/tts")
+async def text_to_speech(request: TTSRequest):
+    """
+    Synthesizes speech from text using Google Cloud TTS.
+    """
+    audio_bytes = tts_service.synthesize_speech(request.text)
+    return Response(content=audio_bytes, media_type="audio/mpeg")
 
 # 4. Static Files (Serve Frontend)
 # Important: This must be AFTER the API routes

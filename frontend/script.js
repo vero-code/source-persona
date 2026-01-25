@@ -2,6 +2,8 @@ const input = document.getElementById('user-input');
 const history = document.getElementById('chat-history');
 const core = document.getElementById('ai-core');
 const statusEl = document.getElementById('holo-status');
+const micBtn = document.getElementById('mic-btn');
+const visualizerCanvas = document.getElementById('voice-visualizer');
 
 // --- TOGGLES & SLIDERS ---
 const modeToggle = document.getElementById('challenge-mode-toggle');
@@ -59,6 +61,151 @@ const Terminal = {
         }
     }
 };
+
+
+
+// --- VOICE & VISUALIZER SYSTEM ---
+const VoiceSystem = {
+    audioContext: null,
+    analyser: null,
+    source: null,
+    dataArray: null,
+    isListening: false,
+    recognition: null,
+
+    init: function() {
+        // Init Speech Recognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            this.recognition = new SpeechRecognition();
+            this.recognition.continuous = false;
+            this.recognition.lang = 'en-US';
+            this.recognition.interimResults = false;
+
+            this.recognition.onstart = () => {
+                this.isListening = true;
+                if (micBtn) {
+                    micBtn.style.background = 'rgba(255, 77, 77, 0.2)';
+                    micBtn.style.color = '#ff4d4d';
+                    micBtn.style.boxShadow = '0 0 15px #ff4d4d';
+                }
+                Terminal.log("VOICE_INPUT: Listening...", 'info');
+            };
+
+            this.recognition.onend = () => {
+                this.isListening = false;
+                if (micBtn) {
+                    micBtn.style.background = ''; // reset
+                    micBtn.style.color = '';
+                    micBtn.style.boxShadow = '';
+                }
+            };
+
+            this.recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                Terminal.log(`VOICE_INPUT: "${transcript}"`, 'info');
+                if (input) {
+                    input.value = transcript;
+                    // Auto-submit
+                    const ke = new KeyboardEvent('keydown', {
+                        key: 'Enter', bubble: true
+                    });
+                    input.dispatchEvent(ke);
+                }
+            };
+        }
+
+        // Init Mic Button
+        if (micBtn && this.recognition) {
+            micBtn.addEventListener('click', () => {
+                if (this.isListening) this.recognition.stop();
+                else this.recognition.start();
+            });
+        }
+    },
+
+    playTTS: function(text) {
+        Terminal.log("TTS_REQ: Requesting audio stream...", 'info');
+        
+        fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text })
+        })
+        .then(res => res.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            this.visualizeAudio(url);
+        })
+        .catch(err => Terminal.log("TTS_ERROR: " + err, 'error'));
+    },
+
+    visualizeAudio: function(audioUrl) {
+        if (!this.audioContext) {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        const audio = new Audio(audioUrl);
+        audio.crossOrigin = "anonymous";
+
+        const source = this.audioContext.createMediaElementSource(audio);
+        const analyser = this.audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        
+        source.connect(analyser);
+        analyser.connect(this.audioContext.destination);
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        
+        audio.play();
+        Terminal.log("AUDIO_PLAYBACK: Playing...", 'info');
+
+        // Canvas Setup
+        if (!visualizerCanvas) return;
+        const ctx = visualizerCanvas.getContext('2d');
+        const width = visualizerCanvas.width;
+        const height = visualizerCanvas.height;
+
+        const renderFrame = () => {
+            if (audio.paused || audio.ended) {
+                ctx.clearRect(0, 0, width, height);
+                return;
+            }
+            requestAnimationFrame(renderFrame);
+
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.clearRect(0, 0, width, height);
+            
+            // Circular Visualization (around the core)
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = 30; // base radius
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#00f3ff';
+            ctx.lineWidth = 2;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = dataArray[i] / 2; 
+                const angle = (i * 2 * Math.PI) / bufferLength; // map to circle
+                
+                const x = centerX + Math.cos(angle) * (radius + barHeight);
+                const y = centerY + Math.sin(angle) * (radius + barHeight);
+
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+        };
+
+        renderFrame();
+    }
+};
+
+VoiceSystem.init();
 
 // --- BACKGROUND TASKS ---
 setInterval(() => {
@@ -339,4 +486,23 @@ function addMessage(content, type, label) {
     }
 
     history.scrollTop = history.scrollHeight;
+    history.scrollTop = history.scrollHeight;
+
+    // Add Listen Button for AI messages
+    if (type === 'ai-message' && label !== 'SYSTEM') {
+        const listenBtn = document.createElement('button');
+        listenBtn.className = 'cyber-btn';
+        listenBtn.innerHTML = '🔊 LISTEN';
+        listenBtn.style.marginTop = '10px';
+        listenBtn.style.padding = '5px 10px';
+        listenBtn.style.fontSize = '0.7em';
+        listenBtn.onclick = () => {
+            // Extract text only (remove markdown symbols roughly if needed, 
+            // but TTS is usually okay with some cleaner)
+            // Ideally we pass the raw 'content' before markdown parsing, 
+            // but here we use 'content' variable which is raw.
+            VoiceSystem.playTTS(content.replace(/[*#`]/g, ''));
+        };
+        msg.appendChild(listenBtn);
+    }
 }

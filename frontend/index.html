@@ -27,6 +27,8 @@
             
             <div class="ai-core-container">
                 <div id="ai-core" class="ai-core"></div>
+                <!-- Voice Visualizer Overlay -->
+                <canvas id="voice-visualizer" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; pointer-events: none; z-index: 5; opacity: 0.8;"></canvas>
             </div>
 
             <div class="stat-row">
@@ -127,6 +129,9 @@
         <div class="input-panel">
             <span class="input-prompt">&gt;</span>
             <input type="text" id="user-input" placeholder="Initiate technical assessment sequence..." autofocus autocomplete="off">
+            <button id="mic-btn" class="cyber-btn" title="Voice Input" style="padding: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; min-width: unset;">
+                🎤
+            </button>
         </div>
 
         <footer class="footer-info">
