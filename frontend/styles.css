@@ -91,13 +91,11 @@ header {
 }
 
 .logo {
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    text-transform: uppercase;
 }
 
 .persona-name-center {
@@ -463,10 +461,11 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.7rem;
-    opacity: 0.4;
-    letter-spacing: 3px;
+    font-size: 0.65rem;
+    opacity: 0.25;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    padding: 10px 0;
 }
 
 .footer-separator {
