@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veronika AI | Neural Interface</title>
+    <title>Source Persona | Veronika's digital twin</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,7 @@
 
         <!-- Sidebar Left -->
         <aside class="panel sidebar-left">
-            <div class="sidebar-title">Neural Engine Status</div>
+            <!-- <div class="sidebar-title">Neural Engine Status</div> -->
             
             <div class="ai-core-container">
                 <div id="ai-core" class="ai-core"></div>
@@ -43,7 +43,7 @@
                 <canvas id="voice-visualizer" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; pointer-events: none; z-index: 5; opacity: 0.8;"></canvas>
             </div>
 
-            <div class="stat-row">
+            <!-- <div class="stat-row">
                 <div class="stat-label"><span>CPU LOAD</span><span id="cpu-val">42%</span></div>
                 <div class="stat-bar-container"><div id="cpu-bar" class="stat-bar" style="width: 42%;"></div></div>
             </div>
@@ -56,7 +56,7 @@
             <div class="stat-row">
                 <div class="stat-label"><span>LATENCY</span><span id="lat-val">12ms</span></div>
                 <div class="stat-bar-container"><div id="lat-bar" class="stat-bar" style="width: 15%;"></div></div>
-            </div>
+            </div> -->
 
             <!-- Persona Protocol -->
             <div class="sidebar-title" style="margin-top: 20px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px;">
@@ -100,8 +100,8 @@
         <main class="panel main-chat">
             <div id="chat-history">
                 <div class="message ai-message">
-                    <div class="message-label">System Initialized</div>
-                    Neural interface ready. Awaiting connection parameters...
+                    <div class="message-label">Veronika's digital twin</div>
+                    Skip the resume — <b>ask me directly</b>.
                 </div>
             </div>
         </main>
@@ -125,7 +125,7 @@
         <div class="suggestion-chips">
             <button class="suggestion-chip" data-question="Who are you?">Who are you?</button>
             <button class="suggestion-chip" data-question="How many years of experience do you have?">Experience?</button>
-            <button class="suggestion-chip" data-question="What is your primary stack?">Tech Stack?</button>
+            <button class="suggestion-chip" data-question="What is your primary Tech Stack?">Tech Stack</button>
             <button class="suggestion-chip" data-question="Tell me about your key projects.">Projects?</button>
             <button class="suggestion-chip" data-question="What are your main soft skills?">Soft Skills?</button>
             <button class="suggestion-chip" data-question="How can I contact you?">Contact?</button>
@@ -135,12 +135,13 @@
             <button class="suggestion-chip" data-question="What are your strengths and weaknesses?">Strengths/Weaknesses?</button>
             <button class="suggestion-chip" data-question="Tell me about your biggest achievement">Achievements?</button>
             <button class="suggestion-chip" data-question="What are your hobbies and interests?">Hobbies?</button>
+            <button class="suggestion-chip" data-question="Why should we hire you over other candidates?">💎 Why Hire You?</button>
         </div>
 
         <!-- Input Section -->
         <div class="input-panel">
             <span class="input-prompt">&gt;</span>
-            <input type="text" id="user-input" placeholder="Initiate technical assessment sequence..." autofocus autocomplete="off">
+            <input type="text" id="user-input" placeholder="Type a question or select a topic..." autofocus autocomplete="off">
             <button id="send-btn" class="cyber-btn" title="Send Message" style="padding: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; min-width: unset;">
                 <span>➤</span>
             </button>

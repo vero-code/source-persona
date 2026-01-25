@@ -474,7 +474,7 @@ function handleSendMessage() {
         } else {
             Terminal.log("RAG_VERIFICATION: PASS", 'info');
         }
-        addMessage(data.response, 'ai-message', 'Veronika AI');
+        addMessage(data.response, 'ai-message', "Veronika's digital twin");
     })
     .catch(error => {
         console.error('Error:', error);
