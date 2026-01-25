@@ -32,3 +32,6 @@ yarn-error.log*
 # --- Data ---
 backend/data/resume.pdf
 test_report.pdf
+
+# --- Google Cloud ---
+my-project-key.json
