@@ -72,6 +72,8 @@ const VoiceSystem = {
     dataArray: null,
     isListening: false,
     recognition: null,
+    currentAudio: null,
+    currentListenBtn: null,
 
     init: function() {
         // Init Speech Recognition
@@ -132,7 +134,28 @@ const VoiceSystem = {
         }
     },
 
-    playTTS: function(text) {
+    stopTTS: function() {
+        if (this.currentAudio) {
+            this.currentAudio.pause();
+            this.currentAudio = null;
+        }
+        if (this.currentListenBtn) {
+            this.currentListenBtn.innerHTML = '🔊 LISTEN';
+            this.currentListenBtn.classList.remove('playing');
+            this.currentListenBtn = null;
+        }
+        Terminal.log("AUDIO_PLAYBACK: Stopped", 'info');
+    },
+
+    playTTS: function(text, btn) {
+        if (this.currentAudio) {
+            this.stopTTS();
+        }
+
+        this.currentListenBtn = btn;
+        this.currentListenBtn.innerHTML = '⏹ STOP';
+        this.currentListenBtn.classList.add('playing');
+
         Terminal.log("TTS_REQ: Requesting audio stream...", 'info');
         
         fetch('/api/tts', {
@@ -142,10 +165,14 @@ const VoiceSystem = {
         })
         .then(res => res.blob())
         .then(blob => {
+            if (!this.currentListenBtn) return; // Case where it was stopped before fetch returned
             const url = URL.createObjectURL(blob);
             this.visualizeAudio(url);
         })
-        .catch(err => Terminal.log("TTS_ERROR: " + err, 'error'));
+        .catch(err => {
+            Terminal.log("TTS_ERROR: " + err, 'error');
+            this.stopTTS();
+        });
     },
 
     visualizeAudio: function(audioUrl) {
@@ -155,6 +182,11 @@ const VoiceSystem = {
 
         const audio = new Audio(audioUrl);
         audio.crossOrigin = "anonymous";
+        this.currentAudio = audio;
+
+        audio.onended = () => {
+            this.stopTTS();
+        };
 
         const source = this.audioContext.createMediaElementSource(audio);
         const analyser = this.audioContext.createAnalyser();
@@ -515,11 +547,15 @@ function addMessage(content, type, label) {
         listenBtn.style.padding = '5px 10px';
         listenBtn.style.fontSize = '0.7em';
         listenBtn.onclick = () => {
-            // Extract text only (remove markdown symbols roughly if needed, 
-            // but TTS is usually okay with some cleaner)
-            // Ideally we pass the raw 'content' before markdown parsing, 
-            // but here we use 'content' variable which is raw.
-            VoiceSystem.playTTS(content.replace(/[*#`]/g, ''));
+            if (VoiceSystem.currentListenBtn === listenBtn) {
+                VoiceSystem.stopTTS();
+            } else {
+                // Extract text only (remove markdown symbols roughly if needed, 
+                // but TTS is usually okay with some cleaner)
+                // Ideally we pass the raw 'content' before markdown parsing, 
+                // but here we use 'content' variable which is raw.
+                VoiceSystem.playTTS(content.replace(/[*#`]/g, ''), listenBtn);
+            }
         };
         msg.appendChild(listenBtn);
     }
