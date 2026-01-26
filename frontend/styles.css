@@ -398,18 +398,27 @@ header {
     border-radius: 20px;
     font-family: 'Fira Code', monospace;
     font-size: 0.75rem;
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     user-select: none;
 }
 
-.suggestion-chip:active, .suggestion-chips.active .suggestion-chip {
+.suggestion-chips.is-scrollable {
+    cursor: grab;
+}
+
+.suggestion-chips.is-scrollable .suggestion-chip {
+    cursor: grab;
+}
+
+.suggestion-chips.is-scrollable:active, 
+.suggestion-chips.is-scrollable.active .suggestion-chip {
     cursor: grabbing;
 }
 
-.suggestion-chips.active {
+.suggestion-chips.is-scrollable.active {
     cursor: grabbing;
 }
 
@@ -639,7 +648,11 @@ header {
         cursor: grab;
     }
 
-    .suggestion-chips:active {
+    .suggestion-chips.is-scrollable {
+        cursor: grab;
+    }
+
+    .suggestion-chips.is-scrollable:active {
         cursor: grabbing;
     }
 

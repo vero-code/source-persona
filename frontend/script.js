@@ -510,6 +510,20 @@ if (chipsContainer && scrollHint) {
     });
 }
 
+function updateChipsCursor() {
+    if (chipsContainer) {
+        const isScrollable = chipsContainer.scrollWidth > chipsContainer.clientWidth;
+        chipsContainer.classList.toggle('is-scrollable', isScrollable);
+        if (scrollHint) {
+            scrollHint.style.display = isScrollable ? 'block' : 'none';
+        }
+    }
+}
+
+// Check on load and resize
+window.addEventListener('load', updateChipsCursor);
+window.addEventListener('resize', updateChipsCursor);
+
 // 3. Main Chat Logic
 function handleSendMessage() {
     const text = input.value.trim();
