@@ -384,7 +384,8 @@ header {
     grid-row: 3;
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    padding: 5px 0;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
@@ -630,6 +631,7 @@ header {
     .suggestion-chips {
         flex-wrap: nowrap;
         overflow-x: auto;
+        padding-top: 5px;
         padding-bottom: 5px;
         -ms-overflow-style: none;
         scrollbar-width: none;
