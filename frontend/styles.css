@@ -66,7 +66,28 @@ body, html {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-cyan) transparent;
+}
+
+.panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.panel::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--accent-cyan);
+}
+
+.sidebar-right::-webkit-scrollbar-thumb {
+    background: var(--accent-purple);
+    box-shadow: 0 0 5px var(--accent-purple);
 }
 
 .panel::before {
@@ -612,6 +633,31 @@ header {
         transform: translateX(0);
     }
 
+    .sidebar-left, .sidebar-right {
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-cyan) transparent;
+    }
+
+    .sidebar-left::-webkit-scrollbar, .sidebar-right::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .sidebar-left::-webkit-scrollbar-track, .sidebar-right::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sidebar-left::-webkit-scrollbar-thumb {
+        background: var(--accent-cyan);
+        border-radius: 10px;
+        box-shadow: 0 0 5px var(--accent-cyan);
+    }
+
+    .sidebar-right::-webkit-scrollbar-thumb {
+        background: var(--accent-purple);
+        border-radius: 10px;
+        box-shadow: 0 0 5px var(--accent-purple);
+    }
+
     .main-chat {
         flex: 1;
         width: 100%;
@@ -939,4 +985,5 @@ input:checked ~ #tech-label { opacity: 1 !important; }
     align-items: center;
     justify-content: center;
     gap: 10px;
+    font-size: clamp(0.3rem, 1.2vw, 0.6rem);
 }
