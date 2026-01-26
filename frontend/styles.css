@@ -985,5 +985,5 @@ input:checked ~ #tech-label { opacity: 1 !important; }
     align-items: center;
     justify-content: center;
     gap: 10px;
-    font-size: clamp(0.3rem, 1.2vw, 0.6rem);
+    font-size: clamp(0.7rem, 0.9vw, 0.85rem);
 }
