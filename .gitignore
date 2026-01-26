@@ -30,7 +30,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # --- Data ---
-backend/data/resume.pdf
 test_report.pdf
 
 # --- Google Cloud ---
