@@ -38,7 +38,7 @@
 
         <!-- Sidebar Left -->
         <aside class="panel sidebar-left">
-            <!-- <div class="sidebar-title">Neural Engine Status</div> -->
+            <div class="sidebar-title">DIGITAL TWIN CORE</div>
             
             <div class="ai-core-container">
                 <div id="ai-core" class="ai-core"></div>
@@ -46,20 +46,20 @@
                 <canvas id="voice-visualizer" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; pointer-events: none; z-index: 5; opacity: 0.8;"></canvas>
             </div>
 
-            <!-- <div class="stat-row">
-                <div class="stat-label"><span>CPU LOAD</span><span id="cpu-val">42%</span></div>
+            <div class="stat-row">
+                <div class="stat-label"><span>COGNITIVE LOAD</span><span id="cpu-val">42%</span></div>
                 <div class="stat-bar-container"><div id="cpu-bar" class="stat-bar" style="width: 42%;"></div></div>
             </div>
 
             <div class="stat-row">
-                <div class="stat-label"><span>MEMORY</span><span id="mem-val">2.4GB</span></div>
+                <div class="stat-label"><span>CONTEXT BUFFER</span><span id="mem-val">2.4GB</span></div>
                 <div class="stat-bar-container"><div id="mem-bar" class="stat-bar" style="width: 65%; background: var(--accent-purple);"></div></div>
             </div>
 
             <div class="stat-row">
-                <div class="stat-label"><span>LATENCY</span><span id="lat-val">12ms</span></div>
+                <div class="stat-label"><span>RESPONSE TIME</span><span id="lat-val">12ms</span></div>
                 <div class="stat-bar-container"><div id="lat-bar" class="stat-bar" style="width: 15%;"></div></div>
-            </div> -->
+            </div>
 
             <!-- Persona Protocol -->
             <div class="sidebar-title" style="margin-top: 20px; border-top: 1px solid rgba(0, 243, 255, 0.2); padding-top: 15px;">
@@ -146,10 +146,10 @@
         <div class="input-panel">
             <span class="input-prompt">&gt;</span>
             <input type="text" id="user-input" placeholder="Type a question or select a topic..." autofocus autocomplete="off">
-            <button id="send-btn" class="cyber-btn" title="Send Message" style="padding: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; min-width: unset;">
+            <button id="send-btn" class="cyber-btn cyber-btn-round" title="Send Message">
                 <span>➤</span>
             </button>
-            <button id="mic-btn" class="cyber-btn" title="Voice Input" style="padding: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; min-width: unset;">
+            <button id="mic-btn" class="cyber-btn cyber-btn-round" title="Voice Input">
                 🎤
             </button>
         </div>
