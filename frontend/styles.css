@@ -384,15 +384,9 @@ header {
     grid-row: 3;
     display: flex;
     gap: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    cursor: grab;
-    padding: 5px 0;
-    width: 100%;
+    flex-wrap: wrap;
 }
 
 .suggestion-chip {
@@ -493,7 +487,7 @@ header {
     justify-content: center;
     align-items: center;
     font-size: 0.65rem;
-    opacity: 0.25;
+    opacity: 0.5;
     letter-spacing: 2px;
     text-transform: uppercase;
     padding: 10px 0;
