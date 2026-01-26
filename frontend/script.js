@@ -443,27 +443,72 @@ const scrollHint = document.getElementById('scroll-hint');
 const chips = document.querySelectorAll('.suggestion-chip');
 
 if (chipsContainer && scrollHint) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let moved = false;
+
+    chipsContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        moved = false;
+        chipsContainer.classList.add('active');
+        startX = e.pageX - chipsContainer.offsetLeft;
+        scrollLeft = chipsContainer.scrollLeft;
+    });
+
+    chipsContainer.addEventListener('mouseleave', () => {
+        isDown = false;
+        chipsContainer.classList.remove('active');
+    });
+
+    chipsContainer.addEventListener('mouseup', () => {
+        isDown = false;
+        chipsContainer.classList.remove('active');
+    });
+
+    chipsContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - chipsContainer.offsetLeft;
+        const walk = (x - startX) * 2; // scroll-fast
+        if (Math.abs(walk) > 5) {
+            moved = true;
+        }
+        chipsContainer.scrollLeft = scrollLeft - walk;
+    });
+
+    // Add mouse wheel horizontal scrolling
+    chipsContainer.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        chipsContainer.scrollLeft += e.deltaY + e.deltaX;
+    }, { passive: false });
+
     chipsContainer.addEventListener('scroll', () => {
         if (chipsContainer.scrollLeft > 20) {
             scrollHint.style.opacity = '0';
             setTimeout(() => { scrollHint.style.display = 'none'; }, 300);
         }
     }, { passive: true });
-}
 
-chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-        const question = chip.getAttribute('data-question');
-        input.value = question;
-        // Trigger the enter key event manually to reuse existing logic
-        const event = new KeyboardEvent('keydown', {
-            key: 'Enter',
-            bubble: true,
-            cancelable: true
+    // Handle clicks on chips to prevent action if dragging
+    chips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            if (moved) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            const question = chip.getAttribute('data-question');
+            input.value = question;
+            const event = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                bubble: true,
+                cancelable: true
+            });
+            input.dispatchEvent(event);
         });
-        input.dispatchEvent(event);
     });
-});
+}
 
 // 3. Main Chat Logic
 function handleSendMessage() {

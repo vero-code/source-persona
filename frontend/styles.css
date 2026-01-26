@@ -384,9 +384,15 @@ header {
     grid-row: 3;
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     justify-content: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    padding: 5px 0;
+    width: 100%;
 }
 
 .suggestion-chip {
@@ -397,10 +403,19 @@ header {
     border-radius: 20px;
     font-family: 'Fira Code', monospace;
     font-size: 0.75rem;
-    cursor: pointer;
+    cursor: grab;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    user-select: none;
+}
+
+.suggestion-chip:active, .suggestion-chips.active .suggestion-chip {
+    cursor: grabbing;
+}
+
+.suggestion-chips.active {
+    cursor: grabbing;
 }
 
 .suggestion-chip:hover {
@@ -625,6 +640,11 @@ header {
         -ms-overflow-style: none;
         scrollbar-width: none;
         position: relative;
+        cursor: grab;
+    }
+
+    .suggestion-chips:active {
+        cursor: grabbing;
     }
 
     .scroll-hint {
