@@ -17,9 +17,18 @@ Powered by **Google Gemini 3**, the system uses a sophisticated **Hybrid RAG** (
 
 
 ### 🎥 Making Of & Demo
+
+**✨ UPDATE v1.3:**
+*See the agent **understand and speak** in real-time, the migration to **Gemini 3**, plus the new "Tech Lead Mode", Security Defense Protocol, and full deployment in action:*
+
+[![Watch the v1.3 Update](https://img.youtube.com/vi/62Wex2IcoXE/maxresdefault.jpg)](https://www.youtube.com/watch?v=62Wex2IcoXE)
+
+<br>
+
+**Original Submission Demo:**
 *Watch the engineering process behind Source Persona (Gemini + Antigravity):*
 
-[![Watch the video](https://img.youtube.com/vi/IUg6IYjWplM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IUg6IYjWplM)
+[![Watch the Original Demo](https://img.youtube.com/vi/IUg6IYjWplM/maxresdefault.jpg)](https://www.youtube.com/watch?v=IUg6IYjWplM)
 
 
 ## ⚙️ Architecture
