@@ -13,7 +13,9 @@ Powered by **Google Gemini 3**, the system uses a sophisticated **Hybrid RAG** (
 
 > **Live Demo Context:** This deployment represents **Veronika Kashtanova** (AI Engineer & Founder), demonstrating how the engine processes real-world project history, technical skills, and professional context.
 
-![Source Persona Interface](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/em6js7xnrom0mm9ko7m3.png)
+![Path from Full-Stack Web to Generative AI Research](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/245cponnddfmo7t7ltzg.png)
+
+_Visualizing 10 years of transition from Full-Stack Web to Generative AI Research._
 
 
 ### 🎥 Making Of & Demo
@@ -109,6 +111,10 @@ graph TD
 
 - **📊 Visualized Architecture (Mermaid.js):** The agent doesn't just explain code; it draws it. Integration with **Mermaid.js** allows the Twin to render real-time system diagrams and flowcharts directly in the chat.
 
+![Security Protocol & Hallucination Defense mechanism](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mwhdafawgx4y72viacc7.png)
+
+_The "Red Alert" Hallucination Defense mechanism kicking in against prompt injection._
+
 
 ## 🛠️ Tech Stack
 
@@ -127,6 +133,10 @@ graph TD
 -   **Visuals:** Mermaid.js & Marked.js.
 
 -   **Deployment:** Docker, Google Cloud Run (Serverless).
+
+![Multi-Agent Orchestration](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kikxsoxqd2rx8tao0slz.png)
+
+_The Multi-Agent Orchestration & RAG Pipeline visualizer showing the "Builder Workflow"._
 
 
 ## 📥 Getting Started
@@ -218,6 +228,10 @@ python backend/app/main.py
 ## 🎯 The "New Year, New You" Vision
 
 This project demonstrates how AI can bridge the gap between high-level engineering and personal representation, creating a **"Digital Twin"** that is always online, interactive, and grounded in truth. Powered by the cutting edge of **Google's AI** models.
+
+![Interactive capabilities demonstration](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/myrxg22l923er14kqevj.png)
+
+_Interactive visualization of the "Creative Stack" and Open Source contributions._
 
 
 ## 📄 License
