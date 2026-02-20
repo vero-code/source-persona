@@ -23,7 +23,7 @@ _Visualizing 10 years of transition from Full-Stack Web to Generative AI Researc
 **✨ UPDATE v1.3:**
 *See the agent **understand and speak** in real-time, the migration to **Gemini 3**, plus the new "Tech Lead Mode", Security Defense Protocol, and full deployment in action:*
 
-[![Watch the v1.3 Update](https://img.youtube.com/vi/62Wex2IcoXE/maxresdefault.jpg)](https://www.youtube.com/watch?v=62Wex2IcoXE)
+[![Watch the v1.3 Update](https://img.youtube.com/vi/62Wex2IcoXE/hqdefault.jpg)](https://www.youtube.com/watch?v=62Wex2IcoXE)
 
 <br>
 
